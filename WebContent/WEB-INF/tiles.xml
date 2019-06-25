@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE tiles-definitions PUBLIC
+   "-//Apache Software Foundation//DTD Tiles Configuration 3.0//EN"
+   "http://tiles.apache.org/dtds/tiles-config_3_0.dtd"> 
+
+<tiles-definitions>  
+    <definition name="base.definition"  
+        template="/WEB-INF/layouts/classic.jsp">  
+        <put-attribute name="title" value="" />  
+        <put-attribute name="header" value="/WEB-INF/basefragments/header.jsp" />
+        <put-attribute name="body" value="" />
+        <put-attribute name="footer" value="/WEB-INF/basefragments/footer.jsp" />  
+    </definition>  
+    <definition name="login" extends="base.definition">  
+        <put-attribute name="title" value="Login" />  
+        <put-attribute name="body" value="/WEB-INF/bodyfragments/login.jsp" />  
+    </definition>
+    <definition name="profile" extends="base.definition">  
+        <put-attribute name="title" value="Profile" />  
+        <put-attribute name="body" value="/WEB-INF/bodyfragments/profile.jsp" />  
+    </definition>
+    <definition name="editprofile" extends="base.definition">  
+        <put-attribute name="title" value="Edit Profile" />  
+        <put-attribute name="body" value="/WEB-INF/bodyfragments/editprofile.jsp" />  
+    </definition>
+    <definition name="password" extends="base.definition">  
+        <put-attribute name="title" value="Change Password" />  
+        <put-attribute name="body" value="/WEB-INF/bodyfragments/password.jsp" />  
+    </definition>
+    <definition name="employees" extends="base.definition">  
+        <put-attribute name="title" value="All Employees" /> 
+        <put-attribute name="body" value="/WEB-INF/bodyfragments/employees.jsp" />  
+    </definition>
+    <definition name="newemployee" extends="base.definition">  
+        <put-attribute name="title" value="New Employee" /> 
+        <put-attribute name="body" value="/WEB-INF/bodyfragments/newemployee.jsp" />  
+    </definition>
+</tiles-definitions>
