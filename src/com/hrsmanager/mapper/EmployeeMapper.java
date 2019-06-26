@@ -24,20 +24,20 @@ public class EmployeeMapper implements RowMapper<EmployeeInfo>{
 		Date started_day = rs.getDate("started_day");
 		Integer role_id = rs.getInt("role_id");
 		Integer status_id = rs.getInt("status_id");
-		Integer department_id = rs.getInt("department");
-		Integer position_id = rs.getInt("position");
+		Integer department_id = rs.getInt("department_id");
+		Integer position_id = rs.getInt("position_id");
 		Timestamp created_at = rs.getTimestamp("created_at");
 		Timestamp updated_at = rs.getTimestamp("updated_at");
 		EmployeeInfo emp = new EmployeeInfo(employee_id, employee_name, gender, birthday, phone, email, password);
 		
 		emp.setAddress(address);
-		emp.setStartedDay(started_day);
-		emp.setRoleID(role_id);
-		emp.setStatusID(status_id);
-		emp.setDepartmentID(department_id);
-		emp.setPositionID(position_id);
-		emp.setCreateAt(created_at);
-		emp.setUpdatedAt(updated_at);
+		emp.setStarted_day(started_day);
+		emp.setRole_id(role_id);
+		emp.setStatus_id(status_id);
+		emp.setDepartment_id(department_id);
+		emp.setPosition_id(position_id);
+		emp.setCreated_at(created_at);
+		emp.setUpdated_at(updated_at);
 		return emp;
 	}
 }

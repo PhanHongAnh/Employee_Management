@@ -7,14 +7,14 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 
-import com.hrsmanager.authentication.MyDBAuthenticationService;
+import com.hrsmanager.authentication.EmployeeService;
 
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Autowired
-	MyDBAuthenticationService myDBAuthenticationService;
+	EmployeeService myDBAuthenticationService;
 	
 	@Autowired
 	public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception{
@@ -25,7 +25,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	protected void configure (HttpSecurity http) throws Exception{
 		http.csrf().disable();
 		
-		http.authorizeRequests().antMatchers("/","/welcome","/login","/logout");
-		http.authorizeRequests().antMatchers("/userInfo").access("hasAnyRole()");
+		http.authorizeRequests().antMatchers("/","/welcome","/login","/logout","/employeeInfo");
+		http.authorizeRequests().antMatchers("/employeeInfo").access("hasAnyRole()");
 	}
 }

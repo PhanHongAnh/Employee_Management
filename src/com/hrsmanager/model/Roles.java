@@ -2,18 +2,28 @@ package com.hrsmanager.model;
 
 import java.sql.Timestamp;
 
-public class Role {
+public class Roles {
 
 	private Integer role_id;
 	private String role;
 	private Timestamp created_at;
 	private Timestamp updated_at;
+	private Boolean active;
 	
-	public Role(Integer role_id, String role) {
+	public Roles(Integer role_id, String role) {
 		this.role_id = role_id;
 		this.role = role;
 		new Timestamp(System.currentTimeMillis());
 		this.updated_at = this.created_at;
+		this.active = true;
+	}
+
+	public Boolean getActive() {
+		return active;
+	}
+
+	public void setActive(Boolean active) {
+		this.active = active;
 	}
 
 	public Integer getRole_id() {

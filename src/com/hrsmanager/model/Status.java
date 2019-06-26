@@ -5,15 +5,25 @@ import java.sql.Timestamp;
 public class Status {
 
 	private Integer status_id;
-	private String status;
+	private String status_name;
 	private Timestamp created_at;
 	private Timestamp updated_at;
+	private Boolean active;
 	
-	public Status(Integer status_id, String status) {
+	public Status(Integer status_id, String status_name) {
 		this.status_id = status_id;
-		this.status = status;
+		this.status_name = status_name;
 		this.created_at = new Timestamp(System.currentTimeMillis());
 		this.updated_at = this.created_at;
+		this.active = true;
+	}
+
+	public Boolean getActive() {
+		return active;
+	}
+
+	public void setActive(Boolean active) {
+		this.active = active;
 	}
 
 	public Integer getStatus_id() {
@@ -24,12 +34,12 @@ public class Status {
 		this.status_id = status_id;
 	}
 
-	public String getStatus() {
-		return status;
+	public String getStatus_name() {
+		return status_name;
 	}
 
-	public void setStatus(String status) {
-		this.status = status;
+	public void setStatus_name(String status_name) {
+		this.status_name = status_name;
 	}
 
 	public Timestamp getCreated_at() {
