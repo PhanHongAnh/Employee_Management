@@ -2,7 +2,8 @@ package com.hrsmanager.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
+import org.springframework.web.servlet.ModelAndView;
+
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -11,15 +12,37 @@ import com.hrsmanager.model.EmployeeInfo;
 
 @Controller
 public class EmployeeController {
-
 	@Autowired
 	private EmployeeService employeeService;
 	
-	@RequestMapping(value = {"/employeeInfo"}, method = RequestMethod.GET)
-	public String viewEmployee(Model model) {
-		EmployeeInfo emp = employeeService.loadEmployeeByID(1);
-		model.addAttribute("emp",emp);
-		System.out.println(emp.getEmployee_name());
-		return "employeeInfo";
+	@RequestMapping(value = {"/", "/login"}, method = RequestMethod.GET)
+	public ModelAndView login() {
+		return new ModelAndView("login");
+	}
+	
+	@RequestMapping(value = {"/employees"}, method = RequestMethod.GET)
+	public ModelAndView index() {
+		return new ModelAndView("employees");
+	}
+	
+	@RequestMapping(value = {"/profile"}, method = RequestMethod.GET)
+	public ModelAndView show() {
+		EmployeeInfo emp = employeeService.findEmployeeInfo(20002000);
+		return new ModelAndView("profile", "emp", emp);
+	}
+	
+	@RequestMapping(value = {"/editprofile"}, method = RequestMethod.GET)
+	public ModelAndView edit() {
+		return new ModelAndView("editprofile");
+	}
+	
+	@RequestMapping(value = {"/newemployee"}, method = RequestMethod.GET)
+	public ModelAndView add() {
+		return new ModelAndView("newemployee");
+	}
+	
+	@RequestMapping(value = {"/password"}, method = { RequestMethod.GET, RequestMethod.POST })
+	public ModelAndView password() {
+		return new ModelAndView("password");
 	}
 }

@@ -18,14 +18,17 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	
 	@Autowired
 	public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception{
-		/*auth.userDetailsService(myDBAuthenticationService);*/
+		auth
+		.inMemoryAuthentication()
+			.withUser("honganh").password("20002000").roles("USER").and()
+			.withUser("lien").password("20000000").roles("ADMIN");
 	}
 	
 	@Override
 	protected void configure (HttpSecurity http) throws Exception{
-		http.csrf().disable();
+		http.authorizeRequests().antMatchers("/","/login","/logout").anonymous();
+		http.authorizeRequests().antMatchers("/profile").hasAnyRole("USER", "ADMIN");
+		http.authorizeRequests().antMatchers("/employeeInfo").hasRole("ADMIN");
 		
-		http.authorizeRequests().antMatchers("/","/welcome","/login","/logout","/employeeInfo");
-		http.authorizeRequests().antMatchers("/employeeInfo").access("hasAnyRole()");
 	}
 }
