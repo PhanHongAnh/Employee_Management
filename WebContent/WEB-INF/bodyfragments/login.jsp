@@ -14,6 +14,7 @@
 					<div class="row">
 						<div class="col-lg-12">
 							<form id="login-form" action="#" method="post" role="form" style="display: block;">
+								<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 								<div class="form-group">
 									<input type="text" name="username" id="username" tabindex="1" class="form-control" placeholder="Username" value="">
 								</div>
