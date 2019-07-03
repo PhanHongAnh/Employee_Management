@@ -16,14 +16,11 @@ import com.hrsmanager.authentication.EmployeeService;
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Autowired
-	EmployeeService myDBAuthenticationService;
+	EmployeeService employeeService;
 	
 	@Autowired
 	public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception{
-		auth
-		.inMemoryAuthentication()
-			.withUser("honganh").password("20002000").roles("USER").and()
-			.withUser("lien").password("20000000").roles("ADMIN");
+		auth.userDetailsService(employeeService);
 	}
 	
 	private CsrfTokenRepository csrfTokenRepository() 
@@ -38,8 +35,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	    http.csrf()
 	    	.csrfTokenRepository(csrfTokenRepository());
 		http.authorizeRequests().antMatchers("/","/login","/logout").anonymous();
-		http.authorizeRequests().antMatchers("/profile").hasAnyRole("USER", "ADMIN");
-		http.authorizeRequests().antMatchers("/employeeInfo").hasRole("ADMIN");
+		/*http.authorizeRequests().antMatchers("/profile").hasAnyRole("USER", "ADMIN");*/
 		
+		http.authorizeRequests().and().formLogin()
+		.loginPage("/login")
+		.defaultSuccessUrl("/profile")
+		.failureUrl("/login?error=true")
+		.usernameParameter("email")
+		.passwordParameter("password")
+		.and().logout().logoutUrl("/logout").logoutSuccessUrl("/logoutSuccessUrl");
 	}
 }
