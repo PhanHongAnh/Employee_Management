@@ -15,7 +15,7 @@
         http://www.springframework.org/schema/tx/spring-tx.xsd">
  
 	<mvc:annotation-driven />
-	<context:component-scan base-package="com.hrsmanager" />
+	<context:component-scan base-package="com.hrsmanager.*" />
 	<mvc:default-servlet-handler />
 	<mvc:resources mapping="/resources/**" location="/resources/" ></mvc:resources>
  

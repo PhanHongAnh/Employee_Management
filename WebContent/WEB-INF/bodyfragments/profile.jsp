@@ -10,7 +10,7 @@
 
 			<div class="panel panel-default">
 				<div class="panel-heading">Position</div>
-				<div class="panel-body"></div>
+				<div class="panel-body">${position}</div>
 			</div>
 		</div><!--/col-3-->
     	
