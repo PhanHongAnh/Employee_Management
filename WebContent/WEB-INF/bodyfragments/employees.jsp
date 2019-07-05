@@ -37,7 +37,7 @@
 		</div>
 		
 		<div class="col-md-1">
-	        <button type="button" class="button2" title="Add">
+	        <button type="button" class="button2" onclick="location.href='employee/new'" title="Add">
 	            <span class="glyphicon glyphicon-plus"></span> Add
 	        </button>
         </div>
@@ -75,7 +75,7 @@
                     78</span>
             </div>
             <div class="panel-body">
-                <%@include file="employees_card.jsp" %>
+                <%@include file="employees_list.jsp" %>
             </div>
         </div>
     </div>

@@ -1,4 +1,6 @@
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@page contentType="text/html;charset=UTF-8" language="java" %>
+<%@page isELIgnored="false" %>
 <div class="container">
 	<div class="row">
 		<div class="col-md-6 col-md-offset-3">
@@ -14,14 +16,6 @@
 				<div class="panel-body">
 					<div class="row">
 						<div class="col-lg-12">
-							<c:if test="${param.error == 'true'}">
-         						<div style="color:red;margin:10px 0px;">
-          
-                					Login Failed!!!<br />
-                					Reason :  ${sessionScope["SPRING_SECURITY_LAST_EXCEPTION"].message}
-                 
-         						</div>
-    						</c:if>
 							<form id="login-form" action="${pageContext.request.contextPath}/login_check" method="post" role="form" style="display: block;">
 								<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 								<div class="form-group">
@@ -41,6 +35,7 @@
 										</div>
 									</div>
 								</div>
+								<p style="color: red;">${message}</p>
 								<div class="form-group">
 									<div class="row">
 										<div class="col-lg-12">

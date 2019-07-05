@@ -2,6 +2,8 @@ package com.hrsmanager.dao;
 
 import java.sql.Date;
 import java.sql.Timestamp;
+import java.util.List;
+
 
 import com.hrsmanager.model.EmployeeInfo;
 
@@ -13,4 +15,8 @@ public interface EmployeeDAO {
 			String address, String phone, String email, Date started_day, 
 			Integer status_id, Integer role_id, Timestamp updated_at,
 			Integer department_id, Integer position_id, Integer employee_id);
+	public String findPassword(String email);
+	public int createEmployeeInfo(EmployeeInfo emp);
+	public int updatePassword(EmployeeInfo emp);
+	public List<EmployeeInfo> listEmployee();
 }

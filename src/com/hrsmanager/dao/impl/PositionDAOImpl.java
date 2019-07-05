@@ -30,9 +30,22 @@ public class PositionDAOImpl extends JdbcDaoSupport implements PositionDAO{
 	}
 	
 	@Override
-	public PositionInfo findPositionInfo(Integer position_id) {
+	public PositionInfo findPositionByID(Integer position_id) {
 		String sql = "select *from Positions p where p.position_id = ?";
 		Object[]params = new Object[] {position_id};
+		PositionMapper mapper = new PositionMapper();
+		try {
+			PositionInfo position = this.getJdbcTemplate().queryForObject(sql, params, mapper);
+			return position;
+		}catch(EmptyResultDataAccessException e) {
+			return null;
+		}
+	}
+	
+	@Override
+	public PositionInfo findPositionByName(String position_name) {
+		String sql = "select *from Positions p where p.position_name = ?";
+		Object[]params = new Object[] {position_name};
 		PositionMapper mapper = new PositionMapper();
 		try {
 			PositionInfo position = this.getJdbcTemplate().queryForObject(sql, params, mapper);

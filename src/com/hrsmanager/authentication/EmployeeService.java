@@ -3,6 +3,7 @@ package com.hrsmanager.authentication;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.Arrays;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
@@ -11,6 +12,7 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 
 import com.hrsmanager.dao.EmployeeDAO;
@@ -34,7 +36,7 @@ public class EmployeeService implements UserDetailsService {
 			throw new UsernameNotFoundException("Email "+email+" was not found");
 		}
 		
-		Roles role = roleDAO.findRoles(emp.getRole_id());
+		Roles role = roleDAO.findRolesByID(emp.getRole_id());
 		String role_name = role.getRole_name();
 	
 		GrantedAuthority authority = new SimpleGrantedAuthority("ROLE_"+role_name);
@@ -51,10 +53,10 @@ public class EmployeeService implements UserDetailsService {
 		return emp;
 	}
 	
-	public EmployeeInfo findByEmailPass(String email, String password) {
-		EmployeeInfo emp = employeeDAO.findEmployeeInfoByEP(email, password);
+	public EmployeeInfo findByEmail(String email) {
+		EmployeeInfo emp = employeeDAO.findEmployeeInfoByEmail(email);
 		if (emp == null) {
-			throw new UsernameNotFoundException("Employee "+email+" was not found");
+			throw new UsernameNotFoundException("Employee was not found");
 		}
 		return emp;
 	}
@@ -71,5 +73,31 @@ public class EmployeeService implements UserDetailsService {
 		}
 		EmployeeInfo emp = employeeDAO.findEmployeeInfoByID(employee_id);
 		return emp;
+	}
+
+	public EmployeeInfo findByEmailPass(String email, String password) {
+		String password_check = employeeDAO.findPassword(email);
+		System.out.println(password_check);
+		if(BCrypt.checkpw(password, password_check)==false){
+			throw new UsernameNotFoundException("Incorrect Passowrd");
+		}else {
+			EmployeeInfo emp = employeeDAO.findEmployeeInfoByEmail(email);
+			return emp;
+		}
+	}
+	
+	public List<EmployeeInfo> listEmployee(){
+		List<EmployeeInfo> list = employeeDAO.listEmployee();
+		return list;
+	}
+	
+	public int newEmployeeInfo(EmployeeInfo emp,Integer department_id, Integer position_id, Integer role_id, Integer status_id, Date started_day ) {
+		emp.setStarted_day(started_day);
+		emp.setRole_id(role_id);
+		emp.setStatus_id(status_id);
+		emp.setDepartment_id(department_id);
+		emp.setPosition_id(position_id);
+		
+		return employeeDAO.createEmployeeInfo(emp);
 	}
 }

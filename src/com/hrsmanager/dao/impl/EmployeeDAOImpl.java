@@ -2,6 +2,7 @@ package com.hrsmanager.dao.impl;
 
 import java.sql.Date;
 import java.sql.Timestamp;
+import java.util.List;
 
 import javax.sql.DataSource;
 
@@ -77,5 +78,42 @@ public class EmployeeDAOImpl extends JdbcDaoSupport implements EmployeeDAO{
 				employee_id};
 		int count = this.getJdbcTemplate().update(sql, params);
 		return count;
+	}
+
+	@Override
+	public String findPassword(String email) {
+		String sql = "Select * from Employees emp where emp.email = ?";
+		String password= null;
+		Object[] params = new Object[] {email};
+		EmployeeMapper mapper = new EmployeeMapper();
+		try {
+			EmployeeInfo emp = this.getJdbcTemplate().queryForObject(sql, params, mapper);
+			password = emp.getPassword();
+			return password;
+		}catch(EmptyResultDataAccessException e) {
+			return password;
+		}
+	}
+	
+	@Override
+	public int createEmployeeInfo(EmployeeInfo emp) {
+		String sql = "Insert into Employees (employee_id, employee_name, birthday, gender, address, phone, email, password, role_id,"
+				+"status_id, department_id, position_id, started_day, created_at, updated_at) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+		return this.getJdbcTemplate().update(sql, new Object[] {emp.getEmployee_id(),emp.getEmployee_name(),emp.getBirthday(),emp.getGender(),
+				emp.getAddress(),emp.getPhone(),emp.getEmail(),emp.getPassword(),emp.getRole_id(),
+				emp.getStatus_id(),emp.getDepartment_id(),emp.getPosition_id(),emp.getStarted_day(),
+				emp.getCreated_at(),emp.getUpdated_at()});
+	}
+	
+	@Override
+	public int updatePassword(EmployeeInfo emp) {
+		String sql = "Update Employees Set password="+emp.getPassword()+"where employee_id="+emp.getEmployee_id()+"OR email="+emp.getEmail();
+		return this.getJdbcTemplate().update(sql); 
+	}
+	
+	@Override
+	public List<EmployeeInfo> listEmployee(){
+		String sql = "Select * from Employees";
+		return this.getJdbcTemplate().query(sql, new EmployeeMapper());
 	}
 }

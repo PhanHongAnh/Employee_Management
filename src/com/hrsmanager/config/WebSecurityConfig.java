@@ -34,7 +34,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	protected void configure (HttpSecurity http) throws Exception{
 	    http.csrf()
 	    	.csrfTokenRepository(csrfTokenRepository());
-		http.authorizeRequests().antMatchers("/","/login","/logout").anonymous();
+		http.authorizeRequests().antMatchers("/","/login","/logout","/newemployee").anonymous();
 		/*http.authorizeRequests().antMatchers("/profile").hasAnyRole("USER", "ADMIN");*/
 		
 		http.authorizeRequests().and().formLogin()

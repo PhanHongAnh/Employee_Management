@@ -41,7 +41,7 @@
 	             					<div class="input-group-addon">
 	             						<i class="fa fa-user"></i>
 	             					</div>
-	             					<input id="name" name="name" type="text" placeholder="${emp.employee_name}" class="form-control input-md">
+	             					<input id="name" name="name" type="text" value="${emp.employee_name}" class="form-control input-md">
 	             				</div>
 	             			</div>
 	             		</div>
@@ -53,7 +53,7 @@
 	             					<div class="input-group-addon">
 	             						<i class="fa fa-birthday-cake"></i>
 	             					</div>
-	             					<input id="bod" name="bod" type="text" placeholder="${emp.birthday}" class="form-control input-md">
+	             					<input id="bod" name="bod" type="text" value="${emp.birthday}" class="form-control input-md">
 	             				</div>
 	             			</div>
 	             		</div>
@@ -65,7 +65,7 @@
 	             					<div class="input-group-addon">
 	             						<i class="fa fa-map-marker"></i>
 	             					</div>
-	             					<input id="address" name="address" type="text" placeholder="${emp.address}" class="form-control input-md">
+	             					<input id="address" name="address" type="text" value="${emp.address}" class="form-control input-md">
 	             				</div>
 	             			</div>
 						</div>
@@ -92,7 +92,7 @@
 	             					<div class="input-group-addon">
 	             						<i class="fa fa-phone"></i>
 	             					</div>
-	             					<input id="phone" name="phone" type="text" placeholder="${emp.phone}" class="form-control input-md">
+	             					<input id="phone" name="phone" type="text" value="${emp.phone}" class="form-control input-md">
 	             				</div>
 	             			</div>
 	             		</div>
@@ -104,7 +104,7 @@
 	             					<div class="input-group-addon">
 	             						<i class="fa fa-envelope-o"></i>
 	             					</div>
-	             					<input id="email" name="email" type="text" placeholder="${emp.email}" class="form-control input-md">
+	             					<input id="email" name="email" type="text" value="${emp.email}" class="form-control input-md">
 	             				</div>
 	             			</div>
 	             		</div>
@@ -116,7 +116,7 @@
 	             					<div class="input-group-addon">
 	             						<i class="fa fa-calendar"></i>
 	             					</div>
-	             					<input id="std" name="std" type="text" placeholder="${emp.started_day}" class="form-control input-md">
+	             					<input id="std" name="std" type="text" value="${emp.started_day}" class="form-control input-md">
 	             				</div>
 	             			</div>
 	             		</div>
