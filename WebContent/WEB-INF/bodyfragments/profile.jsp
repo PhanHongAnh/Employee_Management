@@ -10,13 +10,21 @@
 
 			<div class="panel panel-default">
 				<div class="panel-heading">Position</div>
-				<div class="panel-body">${position}</div>
+				<div class="panel-body">
+					<p>${department.department_name} | ${position}</p>
+					<p>Department's address: ${department.department_address}</p>
+					<p>Department's phone: ${department.department_phone}</p>
+				</div>
 			</div>
 		</div><!--/col-3-->
     	
     	<div class="col-sm-9">
         	<ul class="nav nav-tabs">
 				<li class="active"><h4>Profile</h4></li>
+				<li class="pull-right">
+					<a href="${requestScope['javax.servlet.forward.request_uri']}/edit"><button type="button" class="btn btn-outline-dark">Edit Profile</button></a>
+					<a href="${requestScope['javax.servlet.forward.request_uri']}/change_password"><button type="button" class="btn btn-outline-danger">Change Password</button></a>
+				</li>
              </ul>
              
              <div class="tab-content">

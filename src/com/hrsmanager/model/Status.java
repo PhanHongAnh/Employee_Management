@@ -8,22 +8,12 @@ public class Status {
 	private String status_name;
 	private Timestamp created_at;
 	private Timestamp updated_at;
-	private Boolean active;
 	
 	public Status(Integer status_id, String status_name) {
 		this.status_id = status_id;
 		this.status_name = status_name;
 		this.created_at = new Timestamp(System.currentTimeMillis());
 		this.updated_at = this.created_at;
-		this.active = true;
-	}
-
-	public Boolean getActive() {
-		return active;
-	}
-
-	public void setActive(Boolean active) {
-		this.active = active;
 	}
 
 	public Integer getStatus_id() {
@@ -57,6 +47,4 @@ public class Status {
 	public void setUpdated_at(Timestamp updated_at) {
 		this.updated_at = updated_at;
 	}
-	
-	
 }

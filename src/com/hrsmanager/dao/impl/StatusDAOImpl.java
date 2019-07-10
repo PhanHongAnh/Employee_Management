@@ -1,5 +1,7 @@
 package com.hrsmanager.dao.impl;
 
+import java.util.List;
+
 import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +22,13 @@ public class StatusDAOImpl extends JdbcDaoSupport implements StatusDAO {
 	public StatusDAOImpl (DataSource dataSource) {
 		this.setDataSource(dataSource);
 	}
-		
+	
+	@Override
+	public List<Status> listStatus() {
+		String sql = "Select * from Status";
+		return getJdbcTemplate().query(sql, new StatusMapper());
+	}
+	
 	@Override
 	public Status findStatus(Integer status_id) {
 		String sql = "select *from Status s where s.status_id = ?";

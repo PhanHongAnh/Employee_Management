@@ -32,7 +32,8 @@ public class LoginController {
 		HttpSession session = request.getSession();
 		if (emp != null) {
 			session.setAttribute("emp", emp);
-			return "redirect:/profile";
+			String id = emp.getEmployee_id().toString();
+			return "redirect:/employee/" + id;
 		}
 		else return "login";
 	}

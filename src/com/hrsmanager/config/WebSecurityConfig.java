@@ -39,7 +39,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		
 		http.authorizeRequests().and().formLogin()
 		.loginPage("/login")
-		.defaultSuccessUrl("/profile")
+		.defaultSuccessUrl("/employee/{id}")
 		.failureUrl("/login?error=true")
 		.usernameParameter("email")
 		.passwordParameter("password")

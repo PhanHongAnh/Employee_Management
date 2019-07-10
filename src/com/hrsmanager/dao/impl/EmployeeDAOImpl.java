@@ -1,5 +1,8 @@
 package com.hrsmanager.dao.impl;
 
+import java.sql.Date;
+import java.sql.Timestamp;
+
 import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,5 +61,21 @@ public class EmployeeDAOImpl extends JdbcDaoSupport implements EmployeeDAO{
 		}catch(EmptyResultDataAccessException e) {
 			return null;
 		}
+	}
+	
+	@Override
+	public int updateEmployeeInfo(String employee_name, String gender, Date birthday, 
+			String address, String phone, String email, Date started_day, 
+			Integer status_id, Integer role_id, Timestamp updated_at,
+			Integer department_id, Integer position_id, Integer employee_id) {
+		String sql = "Update Employees set employee_name = ?, gender = ?, birthday = ?, "
+				+ "address = ?, phone = ?, email = ?, started_day = ?, status_id = ?, role_id = ?, "
+				+ "updated_at = ?, department_id = ?, position_id = ? "
+				+ "where employee_id = ?";
+		Object[] params = new Object[] {employee_name, gender, birthday, address, phone, email, 
+				started_day, status_id, role_id, updated_at, department_id, position_id, 
+				employee_id};
+		int count = this.getJdbcTemplate().update(sql, params);
+		return count;
 	}
 }

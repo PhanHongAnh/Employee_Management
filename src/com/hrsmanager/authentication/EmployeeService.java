@@ -1,5 +1,7 @@
 package com.hrsmanager.authentication;
 
+import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.Arrays;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +28,6 @@ public class EmployeeService implements UserDetailsService {
 
 	@Override
 	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-		// TODO Auto-generated method stub
 		EmployeeInfo emp = employeeDAO.findEmployeeInfoByEmail(email);
 		
 		if (emp == null) {
@@ -55,6 +56,20 @@ public class EmployeeService implements UserDetailsService {
 		if (emp == null) {
 			throw new UsernameNotFoundException("Employee "+email+" was not found");
 		}
+		return emp;
+	}
+	
+	public EmployeeInfo updateEmployee(String employee_name, String gender, Date birthday, 
+			String address, String phone, String email, Date started_day, 
+			Integer status_id, Integer role_id, Timestamp updated_at, 
+			Integer department_id, Integer position_id, Integer employee_id) {
+		int count = employeeDAO.updateEmployeeInfo(employee_name, gender, birthday, 
+				address, phone, email, started_day, status_id, role_id, updated_at, 
+				department_id, position_id, employee_id);
+		if (count != 1) {
+			throw new UsernameNotFoundException("Cannot update "+employee_id);
+		}
+		EmployeeInfo emp = employeeDAO.findEmployeeInfoByID(employee_id);
 		return emp;
 	}
 }

@@ -1,5 +1,7 @@
 package com.hrsmanager.dao.impl;
 
+import java.util.List;
+
 import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +21,12 @@ public class PositionDAOImpl extends JdbcDaoSupport implements PositionDAO{
 	@Autowired
 	public PositionDAOImpl (DataSource dataSource) {
 		this.setDataSource(dataSource);
+	}
+
+	@Override
+	public List<PositionInfo> listPositions() {
+		String sql = "Select * from Positions";
+		return getJdbcTemplate().query(sql, new PositionMapper());
 	}
 	
 	@Override
