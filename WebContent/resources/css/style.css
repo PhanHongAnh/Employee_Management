@@ -7,6 +7,10 @@ nav {
 	background: #E0E0E0;
 	font-family: 'Avenir', sans-serif;
 }
+.nav>li>a {
+	display: inline-block;
+	padding: 0px !important;
+}
 .logo{  
 	margin: 10px 25px;
 	font-family: 'Hind', sans-serif;

@@ -16,12 +16,10 @@ public class StatusMapper implements RowMapper<Status>{
 		String status_name = rs.getString("status_name");
 		Timestamp created_at = rs.getTimestamp("created_at");
 		Timestamp updated_at = rs.getTimestamp("updated_at");
-		Boolean active = rs.getBoolean("active");
 		
 		Status status = new Status(status_id, status_name);
 		status.setCreated_at(created_at);
 		status.setUpdated_at(updated_at);
-		status.setActive(active);
 	
 		return status;
 	}

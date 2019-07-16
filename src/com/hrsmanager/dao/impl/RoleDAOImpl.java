@@ -1,5 +1,7 @@
 package com.hrsmanager.dao.impl;
 
+import java.util.List;
+
 import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +21,12 @@ public class RoleDAOImpl extends JdbcDaoSupport implements RoleDAO{
 	@Autowired
 	public RoleDAOImpl (DataSource dataSource) {
 		this.setDataSource(dataSource);
+	}
+	
+	@Override
+	public List<Roles> listRoles() {
+		String sql = "Select * from Roles";
+		return getJdbcTemplate().query(sql, new RoleMapper());
 	}
 	
 	@Override

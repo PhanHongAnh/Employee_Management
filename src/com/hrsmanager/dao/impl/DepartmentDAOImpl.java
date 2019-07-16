@@ -1,5 +1,7 @@
 package com.hrsmanager.dao.impl;
 
+import java.util.List;
+
 import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +21,12 @@ public class DepartmentDAOImpl extends JdbcDaoSupport implements DepartmentDAO{
 	@Autowired
 	public DepartmentDAOImpl (DataSource dataSource) {
 		this.setDataSource(dataSource);
+	}
+	
+	@Override
+	public List<DepartmentInfo> listDeapartments() {
+		String sql = "Select * from Departments";
+		return getJdbcTemplate().query(sql, new DepartmentMapper());
 	}
 	
 	@Override
