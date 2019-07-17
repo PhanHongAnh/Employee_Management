@@ -16,10 +16,11 @@
 				<div class="panel-body">
 					<div class="row">
 						<div class="col-lg-12">
-							<form id="login-form" action="${pageContext.request.contextPath}/login_check" method="post" role="form" style="display: block;">
+							<form id="login-form" name="login-form" action="${pageContext.request.contextPath}/login_check" method="post" role="form" style="display: block;">
 								<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+								<p style="color: red;">${errorString}</p>
 								<div class="form-group">
-									<input type="text" name="email" id="email" tabindex="1" class="form-control" placeholder="Email" value="">
+									<input type="text" name="email" id="email" tabindex="1" class="form-control" placeholder="Email">
 								</div>
 								<div class="form-group">
 									<input type="password" name="password" id="password" tabindex="2" class="form-control" placeholder="Password">
