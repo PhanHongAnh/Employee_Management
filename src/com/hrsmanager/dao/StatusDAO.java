@@ -5,7 +5,7 @@ import java.util.List;
 import com.hrsmanager.model.Status;
 
 public interface StatusDAO {
-
-	public Status findStatus(Integer status_id);
 	public List<Status> listStatus();
+	public Status findStatusByID(Integer status_id);
+	public Status findStatusByName(String status_name);
 }

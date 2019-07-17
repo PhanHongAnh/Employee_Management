@@ -30,9 +30,22 @@ public class RoleDAOImpl extends JdbcDaoSupport implements RoleDAO{
 	}
 	
 	@Override
-	public Roles findRoles(Integer role_id) {
+	public Roles findRolesByID(Integer role_id) {
 		String sql = "select *from Roles r where r.role_id = ?";
 		Object[]params = new Object[] {role_id};
+		RoleMapper mapper = new RoleMapper();
+		try {
+			Roles role = this.getJdbcTemplate().queryForObject(sql, params, mapper);
+			return role;
+		}catch(EmptyResultDataAccessException e) {
+			return null;
+		}
+	}
+	
+	@Override
+	public Roles findRolesByName(String role_name) {
+		String sql = "select *from Roles r where r.role_name = ?";
+		Object[]params = new Object[] {role_name};
 		RoleMapper mapper = new RoleMapper();
 		try {
 			Roles role = this.getJdbcTemplate().queryForObject(sql, params, mapper);

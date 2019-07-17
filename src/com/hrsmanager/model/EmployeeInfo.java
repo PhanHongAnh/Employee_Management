@@ -21,7 +21,7 @@ public class EmployeeInfo {
 	private Integer department_id;
 	private Integer position_id;
 	
-	public EmployeeInfo(Integer id, String name,String gender, Date birthday, String phone, String email, String password) {
+	public EmployeeInfo(Integer id, String name,String gender, Date birthday, String phone, String email, String password,String address) {
 		this.employee_id = id;
 		this.employee_name = name;
 		this.gender = gender;
@@ -29,9 +29,9 @@ public class EmployeeInfo {
 		this.phone = phone;
 		this.email = email;
 		this.password = password;
+		this.address = address;
 		this.created_at = new Timestamp(System.currentTimeMillis());
 		this.updated_at = this.created_at;
-		this.password = String.valueOf(this.employee_id);
 	}
 
 	public Integer getEmployee_id() {

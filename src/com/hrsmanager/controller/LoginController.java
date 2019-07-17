@@ -1,6 +1,7 @@
 package com.hrsmanager.controller;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,17 +26,20 @@ public class LoginController {
 	}
 	
 	@RequestMapping(value = {"/login_check"}, method = RequestMethod.POST)
-	public String check_login(Model model, HttpServletRequest request,
+	public String check_login(Model model, HttpServletRequest request, HttpServletResponse reponse,
 			@RequestParam(value ="email") String email, @RequestParam(value ="password") String password) {
-		EmployeeInfo emp = (EmployeeInfo) employeeService.findByEmailPass(email,password);
-		model.addAttribute("emp",emp);
+		EmployeeInfo emp = employeeService.findByEmailPass(email,password);
 		HttpSession session = request.getSession();
 		if (emp != null) {
 			session.setAttribute("emp", emp);
 			String id = emp.getEmployee_id().toString();
 			return "redirect:/employee/" + id;
 		}
-		else return "login";
+		else {
+			String error = "Incorrect Email or Passowrd";
+			request.setAttribute("error", error);
+			return "login";
+		}
 	}
 	
 }

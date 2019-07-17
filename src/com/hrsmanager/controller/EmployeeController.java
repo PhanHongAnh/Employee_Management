@@ -4,7 +4,11 @@ import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.servlet.ModelAndView;
@@ -32,7 +36,7 @@ public class EmployeeController {
 	
 	@Autowired
 	private PositionDAO positionDAO;
-	
+
 	@Autowired
 	private DepartmentDAO departmentDAO;
 	
@@ -43,15 +47,17 @@ public class EmployeeController {
 	private RoleDAO roleDAO;
 	
 	@RequestMapping(value = {"/employees"}, method = RequestMethod.GET)
-	public ModelAndView index() {
-		return new ModelAndView("employees");
+	public String listEmployee(Model model,HttpServletRequest request) {
+		List<EmployeeInfo> list = employeeService.listEmployee();
+		request.setAttribute("list", list);
+		return "employees";
 	}
 	
 	@RequestMapping(value = {"/employee/{id}"}, method = RequestMethod.GET)
 	public String profile(@PathVariable int id, Model model) {
 		EmployeeInfo emp = employeeService.findByID(id);
-		String position_name = positionDAO.findPositionInfo(emp.getPosition_id()).getPosition_name();
-		DepartmentInfo department = (DepartmentInfo) departmentDAO.findDepartmentInfo(emp.getDepartment_id());
+		String position_name = positionDAO.findPositionByID(emp.getPosition_id()).getPosition_name();
+		DepartmentInfo department = (DepartmentInfo) departmentDAO.findDepartmentByID(emp.getDepartment_id());
 		model.addAttribute("position", position_name);
 		model.addAttribute("department", department);
 		model.addAttribute("emp", emp);
@@ -112,11 +118,47 @@ public class EmployeeController {
 		return new ModelAndView("profile");
 	}
 	
+	/*-----------------create Employee----------------------------------------*/
 	@RequestMapping(value = {"/employee/new"}, method = RequestMethod.GET)
-	public ModelAndView add() {
+	public ModelAndView show(Model model) {
+		List<Status> listStatuses = statusDAO.listStatus();
+		List<Roles> listRoles = roleDAO.listRoles();
+		List<DepartmentInfo> listDepartments = departmentDAO.listDeapartments();
+		List<PositionInfo> listPositions = positionDAO.listPositions();
+		model.addAttribute("listStatuses", listStatuses);
+		model.addAttribute("listRoles", listRoles);
+		model.addAttribute("listDepartments", listDepartments);
+		model.addAttribute("listPositions", listPositions);
 		return new ModelAndView("newemployee");
 	}
 	
+	@RequestMapping(value = {"/create"}, method = RequestMethod.POST)
+	public String create(Model model,HttpServletRequest request, HttpServletResponse reponse) {
+		
+		Integer employee_id = Integer.valueOf((String)request.getParameter("employee_id"));
+		String employee_name = request.getParameter("employee_name");
+		String gender = request.getParameter("gender");
+		Date birthday = java.sql.Date.valueOf(request.getParameter("birthday"));
+		String address = request.getParameter("address");
+		String phone = request.getParameter("phone");
+		String email = request.getParameter("email");
+		String password = BCrypt.hashpw(String.valueOf(employee_id), BCrypt.gensalt(12));
+		Date started_day = java.sql.Date.valueOf(request.getParameter("started_day"));
+		Integer role_id = Integer.valueOf((String)request.getParameter("role_id"));
+		Integer status_id = Integer.valueOf((String)request.getParameter("status_id"));
+		Integer department_id = Integer.valueOf((String)request.getParameter("department_id"));
+		Integer position_id = Integer.valueOf((String)request.getParameter("position_id"));
+		
+		EmployeeInfo emp = new EmployeeInfo(employee_id, employee_name, gender, birthday, phone, email, password, address);
+		
+		int k = employeeService.newEmployeeInfo(emp, department_id, position_id, role_id, status_id, started_day);
+		if (k>0) return "redirect:/employees";
+		else {
+			return "newemployee";
+		}
+	}
+	
+	/*-------------- Change password--------------------*/
 	@RequestMapping(value = {"/employee/{id}/change_password"}, method = { RequestMethod.GET, RequestMethod.POST })
 	public ModelAndView password() {
 		return new ModelAndView("password");
