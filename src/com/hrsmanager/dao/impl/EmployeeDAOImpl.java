@@ -106,9 +106,10 @@ public class EmployeeDAOImpl extends JdbcDaoSupport implements EmployeeDAO{
 	}
 	
 	@Override
-	public int updatePassword(EmployeeInfo emp) {
-		String sql = "Update Employees Set password="+emp.getPassword()+"where employee_id="+emp.getEmployee_id()+"OR email="+emp.getEmail();
-		return this.getJdbcTemplate().update(sql); 
+	public int updatePassword(Integer employee_id, String password) {
+		String sql = "Update Employees Set password = ? where employee_id = ?";
+		Object[] params = new Object[] {password, employee_id};
+		return this.getJdbcTemplate().update(sql, params); 
 	}
 	
 	@Override

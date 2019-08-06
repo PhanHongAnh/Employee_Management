@@ -17,6 +17,6 @@ public interface EmployeeDAO {
 			Integer department_id, Integer position_id, Integer employee_id);
 	public String findPassword(String email);
 	public int createEmployeeInfo(EmployeeInfo emp);
-	public int updatePassword(EmployeeInfo emp);
+	public int updatePassword(Integer employee_id, String password);
 	public List<EmployeeInfo> listEmployee();
 }
