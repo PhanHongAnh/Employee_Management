@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCrypt;
@@ -174,9 +175,42 @@ public class EmployeeController {
 		}
 	}
 	
-	/*-------------- Change password--------------------*/
-	@RequestMapping(value = {"/employee/{id}/change_password"}, method = { RequestMethod.GET, RequestMethod.POST })
-	public ModelAndView password() {
-		return new ModelAndView("password");
+	@RequestMapping(value = {"/employee/{id}/change_password"}, method = {RequestMethod.GET})
+	public ModelAndView password(@PathVariable int id, HttpServletRequest request) {
+		EmployeeInfo emp = employeeService.findByID(id);
+		return new ModelAndView("password", "emp", emp);
+	}
+	
+	@RequestMapping(value = {"/employee/{id}/update_password"}, method = {RequestMethod.POST})
+	public String update_password(@PathVariable int id, HttpServletRequest request,
+			@RequestParam(value ="password1") String password1,
+			@RequestParam(value ="password2") String password2) {
+		
+		String error = null;
+		boolean hasError = false;
+		EmployeeInfo emp = null;
+		HttpSession session = request.getSession();
+		if (session != null) {
+			session.removeAttribute("errorList");
+		}
+		
+		if (!password1.isEmpty() && !password2.isEmpty()) {
+			if (password1.length() >= 8 && password1.matches(".*\\d.*") && password1 == password2) {
+				String password = BCrypt.hashpw(String.valueOf(password1), BCrypt.gensalt(12));
+				emp = employeeService.updatePassword(id, password);
+				if (emp == null) {
+					hasError = true;
+					error = "Cannot update password";
+				}
+			}
+		}
+		
+		if (hasError) {
+			session.setAttribute("error", error);
+			return "redirect:/employee/" + id + "/change_password";
+		}
+		else {
+			return "redirect:/login";
+		}
 	}
 }

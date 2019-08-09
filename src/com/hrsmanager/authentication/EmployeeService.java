@@ -65,6 +65,15 @@ public class EmployeeService implements UserDetailsService {
 		return emp;
 	}
 	
+	public EmployeeInfo updatePassword(Integer employee_id, String password) {
+		int count = employeeDAO.updatePassword(employee_id, password);
+		EmployeeInfo emp = null;
+		if (count == 1) {
+			emp = employeeDAO.findEmployeeInfoByID(employee_id);
+		}
+		return emp;
+	}
+	
 	public EmployeeInfo updateEmployee(String employee_name, String gender, Date birthday, 
 			String address, String phone, String email, Date started_day, 
 			Integer status_id, Integer role_id, Timestamp updated_at, 

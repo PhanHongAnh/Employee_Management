@@ -1,3 +1,6 @@
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>  
+
 <div class="container">
 	<div class="row">
 		<div class="col-sm-12 text-center">
@@ -7,55 +10,52 @@
 	
 	<div class="row">
 		<div class="col-sm-8 col-sm-offset-2">
-			<form method="post" id="passwordForm" class="form-horizontal">
-				
+			<form method="post" id="passwordForm" class="form-horizontal" action="${fn:replace(requestScope['javax.servlet.forward.request_uri'],'change','update')}">
+				<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 				<div class="form-group form-margin">
 	     			<label class="col-sm-4 control-label" for="EmployeeID">EmployeeID</label>  
 	     			<div class="col-sm-8">
 	     				<h4 class="">
-	     					20142531
+	     					${emp.employee_id}
 	     				</h4>
 	     			</div>
      			</div>
 	            
+	            <c:if test="${error != null}">
+		            <span class="form-group form-margin">
+		            	<label class="col-sm-4"></label>
+			            <span class="col-sm-8 error">${error}
+						</span>
+		            </span>
+		        </c:if>
+		        
 	            <div class="form-group form-margin">
-					<label class="col-sm-4 control-label" for="New Password">New Password</label>
+					<label class="col-sm-4 control-label" for="New Password">
+						New Password <span style="color:red;">*</span>
+					</label>
 					<div class="col-sm-8">
-						<input type="password" class="input-lg form-control" name="password1" id="password1" placeholder="New Password" autocomplete="off">
-					</div>
-					<div class="row">
-						<div class="col-sm-4"></div>
-						<div class="col-sm-4">
-							<span id="8char" class="glyphicon glyphicon-remove" style="color:#FF0004;"></span> 8 Characters Long<br>
-							<span id="ucase" class="glyphicon glyphicon-remove" style="color:#FF0004;"></span> One Uppercase Letter
-						</div>
-						<div class="col-sm-4">
-							<span id="lcase" class="glyphicon glyphicon-remove" style="color:#FF0004;"></span> One Lowercase Letter<br>
-							<span id="num" class="glyphicon glyphicon-remove" style="color:#FF0004;"></span> One Number
-						</div>
+						<input type="password" class="input-lg form-control" name="password1" id="password1" 
+							placeholder="New Password" autocomplete="off" data-rule-passwordCheck="true">
 					</div>
 				</div>
 				
 				<div class="form-group form-margin">
-					<label class="col-sm-4 control-label" for="Repeat Password">Repeat Password</label>
+					<label class="col-sm-4 control-label" for="Confirm Password">
+						Confirm  Password <span style="color:red;">*</span>
+					</label>
 					<div class="col-sm-8">
-						<input type="password" class="input-lg form-control" name="password2" id="password2" placeholder="Repeat Password" autocomplete="off">
-					</div>
-					<div class="row">
-						<div class="col-sm-4"></div>
-						<div class="col-sm-4">
-							<span id="pwmatch" class="glyphicon glyphicon-remove" style="color:#FF0004;"></span> Passwords Match
-						</div>
+						<input type="password" class="input-lg form-control" name="password2" id="password2" 
+							placeholder="Repeat Password" autocomplete="off">
 					</div>
 				</div>
            		
            		<div class="form-group">
 					<div class="col-sm-4"></div>
 					<div class="col-sm-4">
-						<a href="#" class="btn btn-success"><span class="glyphicon glyphicon-thumbs-up"></span> Change Password</a>
+						<input type="submit" name="submit" id="submit" tabindex="4" class="btn btn-success" value="Change Password">
 					</div>
 					<div class="col-sm-4">
-						<a href="#" class="btn btn-danger"><span class="glyphicon glyphicon-remove-sign"></span> Cancel</a>
+						<a href="${fn:substringBefore(requestScope['javax.servlet.forward.request_uri'],'/change_password')}" class="btn btn-danger">Cancel</a>
 					</div>
            		</div>
 			</form>
@@ -65,59 +65,29 @@
 
 
 <script>
-$("input[type=password]").keyup(function(){
-    var ucase = new RegExp("[A-Z]+");
-	var lcase = new RegExp("[a-z]+");
-	var num = new RegExp("[0-9]+");
-	
-	if($("#password1").val().length >= 8){
-		$("#8char").removeClass("glyphicon-remove");
-		$("#8char").addClass("glyphicon-ok");
-		$("#8char").css("color","#00A41E");
-	}else{
-		$("#8char").removeClass("glyphicon-ok");
-		$("#8char").addClass("glyphicon-remove");
-		$("#8char").css("color","#FF0004");
-	}
-	
-	if(ucase.test($("#password1").val())){
-		$("#ucase").removeClass("glyphicon-remove");
-		$("#ucase").addClass("glyphicon-ok");
-		$("#ucase").css("color","#00A41E");
-	}else{
-		$("#ucase").removeClass("glyphicon-ok");
-		$("#ucase").addClass("glyphicon-remove");
-		$("#ucase").css("color","#FF0004");
-	}
-	
-	if(lcase.test($("#password1").val())){
-		$("#lcase").removeClass("glyphicon-remove");
-		$("#lcase").addClass("glyphicon-ok");
-		$("#lcase").css("color","#00A41E");
-	}else{
-		$("#lcase").removeClass("glyphicon-ok");
-		$("#lcase").addClass("glyphicon-remove");
-		$("#lcase").css("color","#FF0004");
-	}
-	
-	if(num.test($("#password1").val())){
-		$("#num").removeClass("glyphicon-remove");
-		$("#num").addClass("glyphicon-ok");
-		$("#num").css("color","#00A41E");
-	}else{
-		$("#num").removeClass("glyphicon-ok");
-		$("#num").addClass("glyphicon-remove");
-		$("#num").css("color","#FF0004");
-	}
-	
-	if($("#password1").val() == $("#password2").val()){
-		$("#pwmatch").removeClass("glyphicon-remove");
-		$("#pwmatch").addClass("glyphicon-ok");
-		$("#pwmatch").css("color","#00A41E");
-	}else{
-		$("#pwmatch").removeClass("glyphicon-ok");
-		$("#pwmatch").addClass("glyphicon-remove");
-		$("#pwmatch").css("color","#FF0004");
-	}
+jQuery.validator.addMethod("passwordCheck", function(value) {
+	return /[0-9]/.test(value)
+	},
+	"Password must include at least a number");
+
+$("#passwordForm").validate({
+  rules: {
+    password1: {
+        required: true,
+        minlength: 8,
+    },
+    password2: {
+      equalTo: "#password1"
+    }
+  },
+  messages: {
+    password1: {
+        required: "Password is required",
+        minlength: "Password must be at least 8 characters",
+    },
+    password2: {
+      equalTo: "Repeat Password does not match"
+    }
+  }
 });
 </script>
