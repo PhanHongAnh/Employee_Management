@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.hrsmanager.authentication.EmployeeService;
+import com.hrsmanager.dao.RoleDAO;
 import com.hrsmanager.model.EmployeeInfo;
 
 @Controller
@@ -21,6 +22,9 @@ public class AuthenticationController {
 
 	@Autowired
 	EmployeeService employeeService;
+	
+	@Autowired
+	private RoleDAO roleDAO;
 	
 	@RequestMapping(value = {"/","/login"}, method = RequestMethod.GET)
 	public String show_login(Model model) {
@@ -54,7 +58,9 @@ public class AuthenticationController {
 			return "redirect:/login";
 		}
 		else {
-			session.setAttribute("emp", emp);
+			session.setAttribute("emp_login", emp);
+			String role = roleDAO.findRolesByID(emp.getRole_id()).getRole_name();
+			session.setAttribute("role", role);
 			String id = emp.getEmployee_id().toString();
 			return "redirect:/employee/" + id;
 		}
@@ -64,10 +70,7 @@ public class AuthenticationController {
 	@RequestMapping(value="/logout", method = RequestMethod.GET)
 	public String logout(Model model,HttpServletRequest request, HttpServletResponse reponse) {
 		HttpSession session = request.getSession();
-		session.setAttribute("emp", null);
-		session.removeAttribute("errorString");
-		session.removeAttribute("email");
-		session.removeAttribute("password");
+		session.invalidate();
 		return "redirect:/login";
 	}
 	

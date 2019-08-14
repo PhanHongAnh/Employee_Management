@@ -14,9 +14,6 @@
 			               <button type="button" onclick="location.href='employee/${employee.employee_id}/edit'" class="btn btn-primary btn-xs" title="Edit">
 			                   <span class="glyphicon glyphicon-pencil"></span>
 			               </button>
-			               <button type="button" class="btn btn-success btn-xs" title="Approved">
-			                   <span class="glyphicon glyphicon-ok"></span>
-			               </button>
 			               <button type="button" class="btn btn-danger btn-xs" title="Delete">
 			                   <span class="glyphicon glyphicon-trash"></span>
 			               </button>
@@ -24,7 +21,17 @@
 	          		</div>
 	          	</div>
                 <div class="mic-info">
-                    <a href="#">Department</a> | <a href="#">Position</a>
+                    <c:forEach items="${listDepartments}" var="dep">
+	                	<c:if test="${dep.department_id == employee.department_id}">
+	                  		<b style="color:LimeGreen">Department:</b> ${dep.department_name} 
+	                  		<b style="color:red">|</b>
+	                    </c:if>
+	                 </c:forEach> 
+	                 <c:forEach items="${listPositions}" var="posi">
+	                 	<c:if test="${posi.position_id == employee.position_id}">
+	                  		<b style="color:LimeGreen">Position:</b> ${posi.position_name}
+	                    </c:if>
+	                 </c:forEach>
                 </div>
             </div>
         </div>

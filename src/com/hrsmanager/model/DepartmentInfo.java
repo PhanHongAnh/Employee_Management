@@ -70,7 +70,7 @@ public class DepartmentInfo {
 		this.updated_at = updated_at;
 	}
 
-	public boolean isActive() {
+	public boolean getActive() {
 		return active;
 	}
 

@@ -14,6 +14,8 @@
 	<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
 	<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
 	<link rel="stylesheet" href="<c:url value="/resources/css/style.css"></c:url>">
+	
+	<script type="text/javascript" src="employees_list.js"></script>
 </head>
 <body>
 	<tiles:insertAttribute name="header" />

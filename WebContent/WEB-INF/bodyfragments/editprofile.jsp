@@ -198,7 +198,7 @@
 	             			<div class="col-sm-5">
 	             				<input type="submit" name="submit" id="submit" tabindex="4" class="btn btn-success" value="Update">
 	             				<input type="reset" name="reset" id="reset" tabindex="4" class="btn btn-info" value="Reset">
-	             				<a href="${fn:substringBefore(requestScope['javax.servlet.forward.request_uri'],'/edit')}" class="btn btn-danger">Cancel</a>
+	             				<a onclick="window.history.back()" class="btn btn-danger">Cancel</a>
 	             			</div>
 	             		</div>
 	             	</form>

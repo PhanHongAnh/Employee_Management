@@ -79,6 +79,7 @@
 .frontside .card,
 .backside .card {
     min-height: 312px;
+    min-width: 356px;
 }
 
 .frontside .card .card-body,
@@ -108,6 +109,7 @@
 <div class="list-group">
 	<section id="team" class="pb-5">
 		<div class="row">
+		<c:forEach items="${list}" var="employee">
 			<div class="col-xs-12 col-sm-6 col-md-4">
 	           <div class="image-flip">
 	               <div class="mainflip">
@@ -115,141 +117,51 @@
 	                       <div class="card">
 	                           <div class="card-body text-center">
 	                               <p><img class=" img-fluid" src="<c:url value="/resources/img/no_avatar.jpg"/>" alt="card image"></p>
-	                               <h4 class="card-title">Sunlimetech</h4>
-	                               <p class="card-text">This is basic card with image on top, title, description and button.</p>
-	                               <a href="#" class="btn btn-primary btn-sm"><i class="fa fa-plus"></i></a>
+	                               <h4 class="card-title">${employee.employee_id}</h4>
+	                               <h4 class="card-title">${employee.employee_name}</h4>
+	           	               	   <a href="employee/${employee.employee_id}" class="btn btn-primary btn-sm"><i class="fa fa-plus"></i></a>
 	                           </div>
 	                       </div>
 	                   </div>
 	                   <div class="backside">
 	                       <div class="card">
 	                           <div class="card-body text-center mt-4">
-	                               <h4 class="card-title">Sunlimetech</h4>
-	                               <p class="card-text">This is basic card with image on top, title, description and button.This is basic card with image on top, title, description and button.This is basic card with image on top, title, description and button.</p>
-	                               <ul class="list-inline">
-	                                   <li class="list-inline-item">
-	                                       <a class="social-icon text-xs-center" target="_blank" href="#">
-	                                           <i class="fa fa-facebook"></i>
-	                                       </a>
-	                                   </li>
-	                                   <li class="list-inline-item">
-	                                       <a class="social-icon text-xs-center" target="_blank" href="#">
-	                                           <i class="fa fa-twitter"></i>
-	                                       </a>
-	                                   </li>
-	                                   <li class="list-inline-item">
-	                                       <a class="social-icon text-xs-center" target="_blank" href="#">
-	                                           <i class="fa fa-skype"></i>
-	                                       </a>
-	                                   </li>
-	                                   <li class="list-inline-item">
-	                                       <a class="social-icon text-xs-center" target="_blank" href="#">
-	                                           <i class="fa fa-google"></i>
-	                                       </a>
-	                                   </li>
+	                               <a href="employee/${employee.employee_id}"><h4 class="card-title">${employee.employee_name}</h4></a>
+	                               <p class="card-text">
+	                               <ul>
+	                               <li type=none>Birthday: ${employee.birthday}</li>
+	                               <li type=none>Email: ${employee.email}</li>
+	                               <li type=none>Address: ${employee.address}</li>
+	                               <li type=none>
+	                               		<c:forEach items="${listDepartments}" var="dep">
+	                               			<c:if test="${dep.department_id == employee.department_id}">
+	                  	            			Department: ${dep.department_name}
+	                               			</c:if>
+	                               		</c:forEach></li>
+	                               <li type=none>
+	                               		<c:forEach items="${listPositions}" var="posi">
+	                               			<c:if test="${posi.position_id == employee.position_id}">
+	                  	            			Positon: ${posi.position_name}
+	                               			</c:if>
+	                               		</c:forEach></li>
 	                               </ul>
+	                               </p>
+	                               
+	                    		   <div class="action pull-right">
+			               				<button type="button" onclick="location.href='employee/${employee.employee_id}/edit'" class="btn btn-primary btn-xs" title="Edit">
+			                   				<span class="glyphicon glyphicon-pencil"></span>
+			               				</button>
+			               				<button type="button" class="btn btn-danger btn-xs" title="Delete">
+			                   				<span class="glyphicon glyphicon-trash"></span>
+			               				</button>
+	              					</div>                              
 	                           </div>
 	                       </div>
 	                   </div>
 	               </div>
 	           </div>
-	       </div>
-	       <!-- ./Team member -->
-	       <!-- Team member -->
-	       <div class="col-xs-12 col-sm-6 col-md-4">
-	           <div class="image-flip">
-	               <div class="mainflip">
-	                   <div class="frontside">
-	                       <div class="card">
-	                           <div class="card-body text-center">
-	                               <p><img class=" img-fluid" src="<c:url value="/resources/img/no_avatar.jpg"/>" alt="card image"></p>
-	                               <h4 class="card-title">Sunlimetech</h4>
-	                               <p class="card-text">This is basic card with image on top, title, description and button.</p>
-	                               <a href="#" class="btn btn-primary btn-sm"><i class="fa fa-plus"></i></a>
-	                           </div>
-	                       </div>
-	                   </div>
-	                   <div class="backside">
-	                       <div class="card">
-	                           <div class="card-body text-center mt-4">
-	                               <h4 class="card-title">Sunlimetech</h4>
-	                               <p class="card-text">This is basic card with image on top, title, description and button.This is basic card with image on top, title, description and button.This is basic card with image on top, title, description and button.</p>
-	                               <ul class="list-inline">
-	                                   <li class="list-inline-item">
-	                                       <a class="social-icon text-xs-center" target="_blank" href="#">
-	                                           <i class="fa fa-facebook"></i>
-	                                       </a>
-	                                   </li>
-	                                   <li class="list-inline-item">
-	                                       <a class="social-icon text-xs-center" target="_blank" href="#">
-	                                           <i class="fa fa-twitter"></i>
-	                                       </a>
-	                                   </li>
-	                                   <li class="list-inline-item">
-	                                       <a class="social-icon text-xs-center" target="_blank" href="#">
-	                                           <i class="fa fa-skype"></i>
-	                                       </a>
-	                                   </li>
-	                                   <li class="list-inline-item">
-	                                       <a class="social-icon text-xs-center" target="_blank" href="#">
-	                                           <i class="fa fa-google"></i>
-	                                       </a>
-	                                   </li>
-	                               </ul>
-	                           </div>
-	                       </div>
-	                   </div>
-	               </div>
-	           </div>
-	       </div>
-	       <!-- ./Team member -->
-	       <!-- Team member -->
-	       <div class="col-xs-12 col-sm-6 col-md-4">
-	           <div class="image-flip">
-	               <div class="mainflip">
-	                   <div class="frontside">
-	                       <div class="card">
-	                           <div class="card-body text-center">
-	                               <p><img class=" img-fluid" src="<c:url value="/resources/img/no_avatar.jpg"/>" alt="card image"></p>
-	                               <h4 class="card-title">Sunlimetech</h4>
-	                               <p class="card-text">This is basic card with image on top, title, description and button.</p>
-	                               <a href="#" class="btn btn-primary btn-sm"><i class="fa fa-plus"></i></a>
-	                           </div>
-	                       </div>
-	                   </div>
-	                   <div class="backside">
-	                       <div class="card">
-	                           <div class="card-body text-center mt-4">
-	                               <h4 class="card-title">Sunlimetech</h4>
-	                               <p class="card-text">This is basic card with image on top, title, description and button.This is basic card with image on top, title, description and button.This is basic card with image on top, title, description and button.</p>
-	                               <ul class="list-inline">
-	                                   <li class="list-inline-item">
-	                                       <a class="social-icon text-xs-center" target="_blank" href="#">
-	                                           <i class="fa fa-facebook"></i>
-	                                       </a>
-	                                   </li>
-	                                   <li class="list-inline-item">
-	                                       <a class="social-icon text-xs-center" target="_blank" href="#">
-	                                           <i class="fa fa-twitter"></i>
-	                                       </a>
-	                                   </li>
-	                                   <li class="list-inline-item">
-	                                       <a class="social-icon text-xs-center" target="_blank" href="#">
-	                                           <i class="fa fa-skype"></i>
-	                                       </a>
-	                                   </li>
-	                                   <li class="list-inline-item">
-	                                       <a class="social-icon text-xs-center" target="_blank" href="#">
-	                                           <i class="fa fa-google"></i>
-	                                       </a>
-	                                   </li>
-	                               </ul>
-	                           </div>
-	                       </div>
-	                   </div>
-	               </div>
-	           </div>
-			</div>
+	       </div>  
+		</c:forEach>
 		</div>
 	</section>
 </div>
