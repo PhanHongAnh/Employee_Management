@@ -22,7 +22,9 @@
         	<ul class="nav nav-tabs">
 				<li class="active"><h4>Profile</h4></li>
 				<li class="pull-right">
-					<a href="${requestScope['javax.servlet.forward.request_uri']}/edit"><button type="button" class="btn btn-outline-dark">Edit Profile</button></a>
+					<%if(session.getAttribute("role").equals("ADMIN")){ %>
+						<a href="${requestScope['javax.servlet.forward.request_uri']}/edit"><button type="button" class="btn btn-outline-dark">Edit Profile</button></a>
+					<%}%>
 					<a href="${requestScope['javax.servlet.forward.request_uri']}/change_password"><button type="button" class="btn btn-outline-danger">Change Password</button></a>
 				</li>
              </ul>

@@ -49,36 +49,67 @@ public class EmployeeController {
 	
 	@RequestMapping(value = {"/employees"}, method = RequestMethod.GET)
 	public String listEmployee(Model model,HttpServletRequest request) {
-		List<EmployeeInfo> list = employeeService.listEmployee();
-		String type = (String) request.getAttribute("type");
-		model.addAttribute("type", type);
-		model.addAttribute("list", list);
-		return "employees";
+		HttpSession session = request.getSession();
+		String role = (String) session.getAttribute("role");
+		EmployeeInfo emp_login = (EmployeeInfo) session.getAttribute("emp_login");
+		if(emp_login == null) {
+			return "redirect:/login";
+		} 
+		else {
+			if(role.equals("ADMIN")) {
+				List<EmployeeInfo> list = employeeService.listEmployee();
+				List<DepartmentInfo> listDepartments = departmentDAO.listDeapartments();
+				List<PositionInfo> listPositions = positionDAO.listPositions();
+				model.addAttribute("listDepartments", listDepartments);
+				model.addAttribute("listPositions", listPositions);
+				model.addAttribute("list", list);
+				model.addAttribute("total", list.size());
+				return "employees";
+			}else {
+				return "redirect:/employee/"+emp_login.getEmployee_id().toString();
+			}
+		}
 	}
 	
-	@RequestMapping(value = {"/list"}, method = RequestMethod.GET)
-	public String listEmp(Model model,HttpServletRequest request) {
-		List<EmployeeInfo> list = employeeService.listEmployee();
-		request.setAttribute("list", list);
-		return "employees_list";
+	@RequestMapping(value = {"/type"}, method = RequestMethod.POST)
+	public String listView(Model model,HttpServletRequest request) {
+		String type = request.getParameter("type_view");
+		HttpSession session = request.getSession();
+		if("card".equals(type)) {
+			session.setAttribute("type_view","card");
+			return "redirect:/employees";
+		}else {
+			session.setAttribute("type_view", "list");
+			return "redirect:/employees";
+		}
+		
 	}
-	
-	/*@RequestMapping(value = {"/card"}, method = RequestMethod.GET)
-	public String cardEmp(Model model,HttpServletRequest request) {
-		List<EmployeeInfo> list = employeeService.listEmployee();
-		request.setAttribute("list", list);
-		return "employees_card";
-	}*/
 	
 	@RequestMapping(value = {"/employee/{id}"}, method = RequestMethod.GET)
-	public String profile(@PathVariable int id, Model model) {
-		EmployeeInfo emp = employeeService.findByID(id);
-		String position_name = positionDAO.findPositionByID(emp.getPosition_id()).getPosition_name();
-		DepartmentInfo department = (DepartmentInfo) departmentDAO.findDepartmentByID(emp.getDepartment_id());
-		model.addAttribute("position", position_name);
-		model.addAttribute("department", department);
-		model.addAttribute("emp", emp);
-		return "profile";
+	public String profile(@PathVariable int id, Model model, HttpServletRequest request) {
+		HttpSession session = request.getSession();
+		String role = (String) session.getAttribute("role");
+		EmployeeInfo emp_login = (EmployeeInfo) session.getAttribute("emp_login");
+		if(emp_login == null) {
+			return "redirect:/login";
+		} 
+		else if(role.equals("ADMIN")){
+			EmployeeInfo emp = employeeService.findByID(id);
+			String position_name = positionDAO.findPositionByID(emp.getPosition_id()).getPosition_name();
+			DepartmentInfo department = (DepartmentInfo) departmentDAO.findDepartmentByID(emp.getDepartment_id());
+			model.addAttribute("position", position_name);
+			model.addAttribute("department", department);
+			model.addAttribute("emp", emp);
+			return "profile";
+		}
+		else {
+			String position_name = positionDAO.findPositionByID(emp_login.getPosition_id()).getPosition_name();
+			DepartmentInfo department = (DepartmentInfo) departmentDAO.findDepartmentByID(emp_login.getDepartment_id());
+			model.addAttribute("position", position_name);
+			model.addAttribute("department", department);
+			model.addAttribute("emp", emp_login);
+			return "profile";
+		}
 	}
 	
 	@RequestMapping(value = {"/employee/{id}/edit"}, method = RequestMethod.GET)
@@ -137,16 +168,27 @@ public class EmployeeController {
 	
 	/*-----------------create Employee----------------------------------------*/
 	@RequestMapping(value = {"/employee/new"}, method = RequestMethod.GET)
-	public ModelAndView show(Model model) {
-		List<Status> listStatuses = statusDAO.listStatus();
-		List<Roles> listRoles = roleDAO.listRoles();
-		List<DepartmentInfo> listDepartments = departmentDAO.listDeapartments();
-		List<PositionInfo> listPositions = positionDAO.listPositions();
-		model.addAttribute("listStatuses", listStatuses);
-		model.addAttribute("listRoles", listRoles);
-		model.addAttribute("listDepartments", listDepartments);
-		model.addAttribute("listPositions", listPositions);
-		return new ModelAndView("newemployee");
+	public String show(Model model, HttpServletRequest request) {
+		HttpSession session = request.getSession();
+		String role = (String) session.getAttribute("role");
+		EmployeeInfo emp_login = (EmployeeInfo) session.getAttribute("emp_login");
+		if(emp_login == null) {
+			return "redirect:/login";
+		} else {
+			if(role.equals("ADMIN")){
+				List<Status> listStatuses = statusDAO.listStatus();
+				List<Roles> listRoles = roleDAO.listRoles();
+				List<DepartmentInfo> listDepartments = departmentDAO.listDeapartments();
+				List<PositionInfo> listPositions = positionDAO.listPositions();
+				model.addAttribute("listStatuses", listStatuses);
+				model.addAttribute("listRoles", listRoles);
+				model.addAttribute("listDepartments", listDepartments);
+				model.addAttribute("listPositions", listPositions);
+				return "newemployee";
+			} else {
+				return "redirect:/employee/"+emp_login.getEmployee_id().toString();
+			}
+		}
 	}
 	
 	@RequestMapping(value = {"/create"}, method = RequestMethod.POST)

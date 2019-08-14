@@ -1,5 +1,4 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-
 <style>
 .widget .panel-body { padding:20px; background: #eee !important;}
 .widget .list-group { margin-bottom: 0; }
@@ -54,17 +53,17 @@
 	        	</div>
 	        </div>
         </div>
-		<% String type = null; %>
+		<form action="${pageContext.request.contextPath}/type" method="post">
+		<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 		<div class="col-md-1" style="padding:0px">
-	        <a href="${pageContext.request.contextPath}/list">
+	        <button type="submit" name="type_view" value="list">
 				<img src="<c:url value="/resources/img/button_list.png"/>" alt="" width="42" height="42"/>
-			</a>
-	        <a href="${pageContext.request.contextPath}/card">
-	        	<% type = "card"; %>
-	        	<%request.setAttribute("type",type); %>
+			</button>
+	        <button type="submit" name="type_view" value="card">
 				<img src="<c:url value="/resources/img/button_card.png"/>" alt="" width="42" height="42">
-			</a>
+			</button>
         </div>
+        </form>
 	</div>
 	
     <div class="row" style="margin-top:50px;">
@@ -74,14 +73,14 @@
                 <h3 class="panel-title">
                     All Users</h3>
                 <span class="label label-info">
-                    78</span>
+                    ${total}</span>
             </div>
             <div class="panel-body">
-            	<%if ((String) request.getAttribute("type") == "card"){ %>
-                	<%@include file="employees_list.jsp"%>
-                <%} else {%>
-                	<%@include file="employees_list.jsp"%>
-                <%} %>
+            	<%if ((String) session.getAttribute("type_view")==null||(String) session.getAttribute("type_view")=="card"){ %>
+                	<%@include file="employees_card.jsp" %>
+                <%} else{%>
+                	<%@include file="employees_list.jsp" %>
+                	<%} %>
             </div>
         </div>
     </div>
