@@ -113,4 +113,14 @@ public class EmployeeService implements UserDetailsService {
 		
 		return employeeDAO.createEmployeeInfo(emp);
 	}
+	
+	public boolean checkEmail(String email) {
+		List<EmployeeInfo> listEmp = employeeDAO.listEmployee();
+		for (EmployeeInfo emp : listEmp) {
+			if (emp.getEmail().equals(email)) {
+				return false;
+			}
+		}
+		return true;
+	}
 }
