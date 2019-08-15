@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Controller;
@@ -132,18 +133,18 @@ public class EmployeeController {
 	public String update(@PathVariable int id,
 			@RequestParam(value ="name") String name,
 			@RequestParam(value ="gender") String gender, 
-			@RequestParam(value ="bod") String bod, 
+			@RequestParam(value ="dob") String dob, 
 			@RequestParam(value ="address") String address, 
 			@RequestParam(value ="phone") String phone, 
 			@RequestParam(value ="email") String email, 
 			@RequestParam(value ="std") String std,
-			@RequestParam(value ="status") String status,
-			@RequestParam(value ="role") String role,
-			@RequestParam(value ="department") String department,
-			@RequestParam(value ="position") String position
+			@RequestParam(value ="status_id") String status,
+			@RequestParam(value ="role_id") String role,
+			@RequestParam(value ="department_id") String department,
+			@RequestParam(value ="position_id") String position
 			) {
 		
-		Date birthday = Date.valueOf(bod);
+		Date birthday = Date.valueOf(dob);
 		Date started_day = Date.valueOf(std);
 		Integer status_id = Integer.valueOf(status);
 		Integer role_id = Integer.valueOf(role);
@@ -193,27 +194,45 @@ public class EmployeeController {
 	
 	@RequestMapping(value = {"/create"}, method = RequestMethod.POST)
 	public String create(Model model,HttpServletRequest request, HttpServletResponse reponse) {
+
+		boolean hasError = false;
+		String error = null;
+		HttpSession session = request.getSession();
 		
-		Integer employee_id = Integer.valueOf((String)request.getParameter("employee_id"));
-		String employee_name = request.getParameter("employee_name");
-		String gender = request.getParameter("gender");
-		Date birthday = java.sql.Date.valueOf(request.getParameter("birthday"));
-		String address = request.getParameter("address");
-		String phone = request.getParameter("phone");
-		String email = request.getParameter("email");
-		String password = BCrypt.hashpw(String.valueOf(employee_id), BCrypt.gensalt(12));
-		Date started_day = java.sql.Date.valueOf(request.getParameter("started_day"));
-		Integer role_id = Integer.valueOf((String)request.getParameter("role_id"));
-		Integer status_id = Integer.valueOf((String)request.getParameter("status_id"));
-		Integer department_id = Integer.valueOf((String)request.getParameter("department_id"));
-		Integer position_id = Integer.valueOf((String)request.getParameter("position_id"));
+		if (StringUtils.isNumeric(request.getParameter("id")) && request.getParameter("id").length() <= 11) {
+			Integer employee_id = Integer.valueOf((String)request.getParameter("id"));
+			String employee_name = request.getParameter("name");
+			String gender = request.getParameter("gender");
+			Date birthday = java.sql.Date.valueOf(request.getParameter("dob"));
+			String address = request.getParameter("address");
+			String phone = request.getParameter("phone");
+			String email = request.getParameter("email");
+			String password = BCrypt.hashpw(String.valueOf(employee_id), BCrypt.gensalt(12));
+			Date started_day = java.sql.Date.valueOf(request.getParameter("std"));
+			Integer role_id = Integer.valueOf((String)request.getParameter("role_id"));
+			Integer status_id = Integer.valueOf((String)request.getParameter("status_id"));
+			Integer department_id = Integer.valueOf((String)request.getParameter("department_id"));
+			Integer position_id = Integer.valueOf((String)request.getParameter("position_id"));
+			
+			if (employeeService.checkEmail(email)) {
+				EmployeeInfo emp = new EmployeeInfo(employee_id, employee_name, gender, birthday, phone, email, password, address);
+				int k = employeeService.newEmployeeInfo(emp, department_id, position_id, role_id, status_id, started_day);
+				if (k<=0) {
+					hasError = true;
+					error = "Cannot create new user";
+				}
+			}
+		} else {
+			hasError = true;
+			error = "Invalid Employee ID. Please enter employee's information again.";
+		}
 		
-		EmployeeInfo emp = new EmployeeInfo(employee_id, employee_name, gender, birthday, phone, email, password, address);
-		
-		int k = employeeService.newEmployeeInfo(emp, department_id, position_id, role_id, status_id, started_day);
-		if (k>0) return "redirect:/employees";
+		if (hasError) {
+			session.setAttribute("error", error);
+			return "redirect:/employee/new";
+		}
 		else {
-			return "newemployee";
+			return "redirect:/employees";
 		}
 	}
 	
@@ -232,12 +251,9 @@ public class EmployeeController {
 		boolean hasError = false;
 		EmployeeInfo emp = null;
 		HttpSession session = request.getSession();
-		if (session != null) {
-			session.removeAttribute("errorList");
-		}
 		
 		if (!password1.isEmpty() && !password2.isEmpty()) {
-			if (password1.length() >= 8 && password1.matches(".*\\d.*") && password1 == password2) {
+			if (password1.length() >= 8 && password1.matches(".*\\d.*") && password1.equals(password2)) {
 				String password = BCrypt.hashpw(String.valueOf(password1), BCrypt.gensalt(12));
 				emp = employeeService.updatePassword(id, password);
 				if (emp == null) {

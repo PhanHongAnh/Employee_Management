@@ -22,8 +22,17 @@
              <div class="tab-content">
              	<div class="tab-pane active">
              	
-             		<form class="form-horizontal" action="${fn:replace(requestScope['javax.servlet.forward.request_uri'],'edit','update')}" method="post">
+             		<form id="empForm" class="form-horizontal" action="${fn:replace(requestScope['javax.servlet.forward.request_uri'],'edit','update')}" method="post">
              			<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+             			
+             			<c:if test="${error != null}">
+	             			<div class="form-group form-margin">
+		             			<div class="col-sm-4"></div>  
+		             			<div class="col-sm-5">
+		             				<span class="error">${error}</span>
+		             			</div>
+		             		</div>
+	             		</c:if>
              		
 	             		<div class="form-group form-margin">
 	             			<label class="col-sm-4 control-label" for="id">EmployeeID</label>  
@@ -35,43 +44,37 @@
 	             		</div>
 	             		
 	             		<div class="form-group">
-	             			<label class="col-sm-4 control-label" for="name">Name (Full name)</label>  
-	             			<div class="col-sm-5">
+	             			<label class="col-sm-4 control-label" for="name">
+	             				Name (Full name) <span style="color:red;">*</span>
+	             			</label>  
+	             			<div class="col-sm-8">
 	             				<div class="input-group">
-	             					<div class="input-group-addon">
+	             					<span class="icon input-group-addon">
 	             						<i class="fa fa-user"></i>
-	             					</div>
+	             					</span>
 	             					<input id="name" name="name" type="text" value="${emp.employee_name}" class="form-control input-md">
 	             				</div>
 	             			</div>
 	             		</div>
 	             		
 	             		<div class="form-group">
-	             			<label class="col-sm-4 control-label" for="bod">Date Of Birth</label>  
+	             			<label class="col-sm-4 control-label" for="bod">
+	             				Date Of Birth <span style="color:red;">*</span>
+	             			</label>  
 	             			<div class="col-sm-5">
 	             				<div class="input-group">
-	             					<div class="input-group-addon">
+	             					<div class="icon input-group-addon">
 	             						<i class="fa fa-birthday-cake"></i>
 	             					</div>
-	             					<input id="bod" name="bod" type="text" value="${emp.birthday}" class="form-control input-md">
+	             					<input id="dob" name="dob" type="date" value="${emp.birthday}" class="form-control input-md">
 	             				</div>
 	             			</div>
 	             		</div>
-						
-						<div class="form-group">
-							<label class="col-sm-4 control-label col-xs-12" for="address">Permanent Address</label>  
-							<div class="col-sm-5">
-	             				<div class="input-group">
-	             					<div class="input-group-addon">
-	             						<i class="fa fa-map-marker"></i>
-	             					</div>
-	             					<input id="address" name="address" type="text" value="${emp.address}" class="form-control input-md">
-	             				</div>
-	             			</div>
-						</div>
 	             		
 	             		<div class="form-group">
-							<label class="col-sm-4 control-label" for="gender">Gender</label>
+							<label class="col-sm-4 control-label" for="gender">
+								Gender <span style="color:red;">*</span>
+							</label>
 							<div class="col-sm-5"> 
 								<label class="radio-inline" for="male">
 									<input type="radio" name="gender" id="male" value="Male" checked="checked"> Male
@@ -84,12 +87,24 @@
 								</label>
 							</div>
 						</div>
+						
+						<div class="form-group">
+							<label class="col-sm-4 control-label col-xs-12" for="address">Address</label>  
+							<div class="col-sm-5">
+	             				<div class="input-group">
+	             					<div class="icon input-group-addon">
+	             						<i class="fa fa-map-marker"></i>
+	             					</div>
+	             					<input id="address" name="address" type="text" value="${emp.address}" class="form-control input-md">
+	             				</div>
+	             			</div>
+						</div>
 	             		
 	             		<div class="form-group">
 	             			<label class="col-sm-4 control-label" for="phone">Phone number</label>  
 	             			<div class="col-sm-5">
 	             				<div class="input-group">
-	             					<div class="input-group-addon">
+	             					<div class="icon input-group-addon">
 	             						<i class="fa fa-phone"></i>
 	             					</div>
 	             					<input id="phone" name="phone" type="text" value="${emp.phone}" class="form-control input-md">
@@ -98,39 +113,53 @@
 	             		</div>
 	             		
 	             		<div class="form-group">
-	             			<label class="col-sm-4 control-label" for="email">Email Address</label>  
+	             			<label class="col-sm-4 control-label" for="email">
+	             				Email Address <span style="color:red;">*</span>
+	             			</label>  
 	             			<div class="col-sm-5">
 	             				<div class="input-group">
-	             					<div class="input-group-addon">
+	             					<div class="icon input-group-addon">
 	             						<i class="fa fa-envelope-o"></i>
 	             					</div>
-	             					<input id="email" name="email" type="text" value="${emp.email}" class="form-control input-md">
+	             					<input id="email" name="email" type="text" value="${emp.email}" class="form-control input-md"
+	             						data-rule-checkemail="true">
 	             				</div>
 	             			</div>
 	             		</div>
 	             		
 	             		<div class="form-group">
-	             			<label class="col-sm-4 control-label" for="std">Started Day</label>  
+	             			<label class="col-sm-4 control-label" for="std">
+	             				Started Day <span style="color:red;">*</span>
+	             			</label>
 	             			<div class="col-sm-5">
 	             				<div class="input-group">
-	             					<div class="input-group-addon">
+	             					<div class="icon input-group-addon">
 	             						<i class="fa fa-calendar"></i>
 	             					</div>
-	             					<input id="std" name="std" type="text" value="${emp.started_day}" class="form-control input-md">
+	             					<input id="std" name="std" type="date" value="${emp.started_day}" class="form-control input-md">
 	             				</div>
 	             			</div>
 	             		</div>
              		
  	             		<div class="form-group">
-	             			<label class="col-sm-4 control-label" for="status">Status</label>  
+	             			<label class="col-sm-4 control-label" for="status">
+	             				Status <span style="color:red;">*</span>
+	             			</label>  
 	             			<div class="col-sm-5">
 	             				<div class="input-group">
-	             					<div class="input-group-addon">
+	             					<div class="icon input-group-addon">
 	             						<i class="fa fa-user"></i>
 	             					</div>
-	             					<select id="status" name="status" class="form-control input-md">
+	             					<select id="status_id" name="status_id" class="form-control input-md">
 	             						<c:forEach items="${listStatuses}" var="status">
-	             							<option value="${status.status_id}">${status.status_name}</option>
+	             							<c:choose>
+	             								<c:when test="${emp.status_id == status.status_id}">
+	             									<option selected value="${status.status_id}">${status.status_name}</option>
+	             								</c:when>
+	             								<c:otherwise>
+	             									<option value="${status.status_id}">${status.status_name}</option>
+	             								</c:otherwise>
+											</c:choose>
 	             						</c:forEach>
 	             					</select>
 	             				</div>
@@ -142,15 +171,24 @@
 			            </ul>
 	             		          			             		
  	             		<div class="form-group form-margin">
-	             			<label class="col-sm-4 control-label" for="role">Role</label>  
+	             			<label class="col-sm-4 control-label" for="role">
+	             				Role <span style="color:red;">*</span>
+	             			</label>  
 	             			<div class="col-sm-5">
 	             				<div class="input-group">
-	             					<div class="input-group-addon">
+	             					<div class="icon input-group-addon">
 	             						<i class="fa fa-user-times"></i>
 	             					</div>
-	             					<select id="role" name="role" class="form-control input-md">
+	             					<select id="role_id" name="role_id" class="form-control input-md">
 	             						<c:forEach items="${listRoles}" var="role">
-	             							<option value="${role.role_id}">${role.role_name}</option>
+	             							<c:choose>
+	             								<c:when test="${emp.role_id == role.role_id}">
+	             									<option selected value="${role.role_id}">${role.role_name}</option>
+	             								</c:when>
+	             								<c:otherwise>
+	             									<option value="${role.role_id}">${role.role_name}</option>
+	             								</c:otherwise>
+											</c:choose>
              							</c:forEach>
 	             					</select>
 	             				</div>
@@ -162,15 +200,24 @@
 			            </ul>
 	             		     		
  	             		<div class="form-group form-margin">
-	             			<label class="col-sm-4 control-label" for="department">Department</label>  
+	             			<label class="col-sm-4 control-label" for="department">
+	             				Department <span style="color:red;">*</span>
+	             			</label>  
 	             			<div class="col-sm-5">
 	             				<div class="input-group">
-	             					<div class="input-group-addon">
+	             					<div class="icon input-group-addon">
 	             						<i class="fa fa-users"></i>
 	             					</div>
-	             					<select id="department" name="department" class="form-control input-md">
+	             					<select id="department_id" name="department_id" class="form-control input-md">
 	             						<c:forEach items="${listDepartments}" var="department">
-	             							<option value="${department.department_id}">${department.department_name}</option>
+	             							<c:choose>
+	             								<c:when test="${emp.department_id == department.department_id}">
+	             									<option selected value="${department.department_id}">${department.department_name}</option>
+	             								</c:when>
+	             								<c:otherwise>
+	             									<option value="${department.department_id}">${department.department_name}</option>
+	             								</c:otherwise>
+											</c:choose>
              							</c:forEach>
 	             					</select>
 	             				</div>
@@ -178,15 +225,24 @@
 	             		</div>
 	             		          			             		
  	             		<div class="form-group">
-	             			<label class="col-sm-4 control-label" for="position">Position</label>  
+	             			<label class="col-sm-4 control-label" for="position">
+	             				Position <span style="color:red;">*</span>
+	             			</label>  
 	             			<div class="col-sm-5">
 	             				<div class="input-group">
-	             					<div class="input-group-addon">
+	             					<div class="icon input-group-addon">
 	             						<i class="fa fa-user"></i>
 	             					</div>
-	             					<select id="position" name="position" class="form-control input-md">
+	             					<select id="position_id" name="position_id" class="form-control input-md">
 	             						<c:forEach items="${listPositions}" var="position">
-	             							<option value="${position.position_id}">${position.position_name}</option>
+	             							<c:choose>
+	             								<c:when test="${emp.position_id == position.position_id}">
+	             									<option selected value="${position.position_id}">${position.position_name}</option>
+	             								</c:when>
+	             								<c:otherwise>
+	             									<option value="${position.position_id}">${position.position_name}</option>
+	             								</c:otherwise>
+											</c:choose>
              							</c:forEach>
 	             					</select>
 	             				</div>

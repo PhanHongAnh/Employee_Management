@@ -215,3 +215,12 @@ cursor: pointer;
 	cursor: pointer;
 }
 .button2:hover { background-color: #008CBA; color: white;}
+
+.icon {
+	width: 40px;
+	height: 34px;
+}
+
+.input-group {
+	width: 240px;
+}
