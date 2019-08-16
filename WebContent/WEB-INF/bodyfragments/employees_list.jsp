@@ -11,10 +11,10 @@
 	            	<div class="name col-xs-10 col-md-10"><a href="employee/${employee.employee_id}">${employee.employee_name}</a></div>
 	            	<div class="col-xs-2 col-md-2">
 	            		<div class="action pull-right">
-			               <button type="button" onclick="location.href='employee/${employee.employee_id}/edit'" class="btn btn-primary btn-xs" title="Edit">
+			               <button type="button" onclick="location.href='employee/${employee.employee_id}/edit'" class="but-action btn btn-primary btn-xs" title="Edit">
 			                   <span class="glyphicon glyphicon-pencil"></span>
 			               </button>
-			               <button type="button" class="btn btn-danger btn-xs" title="Delete">
+			               <button type="button" class="but-action btn btn-danger btn-xs" title="Delete">
 			                   <span class="glyphicon glyphicon-trash"></span>
 			               </button>
 	              		</div>
