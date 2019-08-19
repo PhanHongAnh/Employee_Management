@@ -5,8 +5,8 @@ import java.sql.Timestamp;
 
 public class EmployeeInfo {
 
-	private Integer employee_id;
-	private String employee_name;
+	private Integer employeeId;
+	private String employeeName;
 	private String gender;
 	private Date birthday;
 	private String address;
@@ -14,40 +14,44 @@ public class EmployeeInfo {
 	private String email;
 	private String password;
 	private Date started_day;
-	private Integer status_id;
-	private Integer role_id;
+	private Integer statusId;
+	private Integer roleId;
+
 	private Timestamp created_at;
 	private Timestamp updated_at;
-	private Integer department_id;
-	private Integer position_id;
-	
-	public EmployeeInfo(Integer id, String name,String gender, Date birthday, String phone, String email, String password,String address) {
-		this.employee_id = id;
-		this.employee_name = name;
+	private Integer departmentId;
+	private Integer positionId;
+	private String avatar;
+
+	public EmployeeInfo(Integer id, String name,String gender, Date birthday, String phone, String email, String password,String address,String avatar) {
+		this.employeeId = id;
+		this.employeeName = name;
 		this.gender = gender;
 		this.birthday = birthday;
 		this.phone = phone;
 		this.email = email;
 		this.password = password;
 		this.address = address;
+		this.avatar = avatar;
 		this.created_at = new Timestamp(System.currentTimeMillis());
 		this.updated_at = this.created_at;
+		
 	}
 
-	public Integer getEmployee_id() {
-		return employee_id;
+	public Integer getEmployeeId() {
+		return employeeId;
 	}
 
-	public void setEmployee_id(Integer employee_id) {
-		this.employee_id = employee_id;
+	public void setEmployeeId(Integer employeeId) {
+		this.employeeId = employeeId;
 	}
 
-	public String getEmployee_name() {
-		return employee_name;
+	public String getEmployeeName() {
+		return employeeName;
 	}
 
-	public void setEmployee_name(String employee_name) {
-		this.employee_name = employee_name;
+	public void setEmployeeName(String employeeName) {
+		this.employeeName = employeeName;
 	}
 
 	public String getGender() {
@@ -106,20 +110,20 @@ public class EmployeeInfo {
 		this.started_day = started_day;
 	}
 
-	public Integer getStatus_id() {
-		return status_id;
+	public Integer getStatusId() {
+		return statusId;
 	}
 
-	public void setStatus_id(Integer status_id) {
-		this.status_id = status_id;
+	public void setStatusId(Integer statusId) {
+		this.statusId = statusId;
+	}
+	
+	public Integer getRoleId() {
+		return roleId;
 	}
 
-	public Integer getRole_id() {
-		return role_id;
-	}
-
-	public void setRole_id(Integer role_id) {
-		this.role_id = role_id;
+	public void setRoleId(Integer roleId) {
+		this.roleId = roleId;
 	}
 
 	public Timestamp getCreated_at() {
@@ -138,19 +142,28 @@ public class EmployeeInfo {
 		this.updated_at = updated_at;
 	}
 
-	public Integer getDepartment_id() {
-		return department_id;
+	public Integer getDepartmentId() {
+		return departmentId;
 	}
 
-	public void setDepartment_id(Integer department_id) {
-		this.department_id = department_id;
+	public void setDepartmentId(Integer departmentId) {
+		this.departmentId = departmentId;
 	}
 
-	public Integer getPosition_id() {
-		return position_id;
+	public Integer getPositionId() {
+		return positionId;
 	}
 
-	public void setPosition_id(Integer position_id) {
-		this.position_id = position_id;
+	public void setPositionId(Integer positionId) {
+		this.positionId = positionId;
 	}
+
+	public String getAvatar() {
+		return avatar;
+	}
+
+	public void setAvatar(String avatar) {
+		this.avatar = avatar;
+	}
+	
 }

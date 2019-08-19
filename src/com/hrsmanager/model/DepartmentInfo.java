@@ -4,54 +4,52 @@ import java.sql.Timestamp;
 
 public class DepartmentInfo {
 
-	private Integer department_id;
-	private String department_name;
-	private String department_phone;
-	private String department_address;
+	private Integer departmentId;
+	private String departmentName;
+	private String departmentPhone;
+	private String departmentAddress;
 	private Timestamp created_at;
 	private Timestamp updated_at;
 	private boolean active;
 	
 	public DepartmentInfo(Integer department_id, String department_name) {
-		this.department_id = department_id;
-		this.department_name = department_name;
-		this.department_phone = "HRS";
-		this.department_address = "adress HRS";
+		this.departmentId = department_id;
+		this.departmentName = department_name;
 		this.created_at = new Timestamp(System.currentTimeMillis());
 		this.updated_at = this.created_at;
 		this.active = true;
 	}
 
-	public Integer getDepartment_id() {
-		return department_id;
+	public Integer getDepartmentId() {
+		return departmentId;
 	}
 
-	public void setDepartment_id(Integer department_id) {
-		this.department_id = department_id;
+	public void setDepartmentId(Integer departmentId) {
+		this.departmentId = departmentId;
 	}
 
-	public String getDepartment_name() {
-		return department_name;
+	public String getDepartmentName() {
+		return departmentName;
 	}
 
-	public void setDepartment_name(String department_name) {
-		this.department_name = department_name;
+	public void setDepartmentName(String departmentName) {
+		this.departmentName = departmentName;
 	}
 
-	public String getDepartment_phone() {
-		return department_phone;
+	public String getDepartmentPhone() {
+		return departmentPhone;
 	}
 
-	public void setDepartment_phone(String department_phone) {
-		this.department_phone = department_phone;
+	public void setDepartmentPhone(String departmentPhone) {
+		this.departmentPhone = departmentPhone;
 	}
 
-	public String getDepartment_address() {
-		return department_address;
+	public String getDepartmentAddress() {
+		return departmentAddress;
 	}
 
-	public void setDepartment_address(String department_address) {
-		this.department_address = department_address;
+	public void setDepartmentAddress(String departmentAddress) {
+		this.departmentAddress = departmentAddress;
 	}
 
 	public Timestamp getCreated_at() {
@@ -70,7 +68,7 @@ public class DepartmentInfo {
 		this.updated_at = updated_at;
 	}
 
-	public boolean getActive() {
+	public boolean isActive() {
 		return active;
 	}
 

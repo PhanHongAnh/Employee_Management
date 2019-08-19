@@ -1,19 +1,28 @@
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %> 
+
 <div class="container">
     <div class="row">
-  		<div class="col-sm-10"><h1 class="text-center">${emp.employee_name}</h1></div>
+  		<div class="col-sm-10"><h1 class="text-center">${emp.employeeName}</h1></div>
     </div><br><br>
     <div class="row">
   		<div class="col-sm-3"><!--left col-->
 			<div class="text-center">
-				<img src="http://ssl.gstatic.com/accounts/ui/avatar_2x.png" class="avatar img-circle img-thumbnail" alt="avatar">
+				<c:choose>
+					<c:when test="${empty emp.avatar}">
+						<img src="<c:url value="/resources/img/no_avatar.jpg"/>" class="avatar img-circle img-thumbnail" alt="avatar">
+					</c:when>
+					<c:otherwise>
+						<img src="<c:url value="/resources/img/${emp.avatar}"/>" class="avatar img-circle img-thumbnail" alt="avatar">
+					</c:otherwise>
+				</c:choose>
 			</div><br><br><br>
 
 			<div class="panel panel-default">
 				<div class="panel-heading">Position</div>
 				<div class="panel-body">
-					<p>${department.department_name} | ${position}</p>
-					<p>Department's address: ${department.department_address}</p>
-					<p>Department's phone: ${department.department_phone}</p>
+					<p>${department.departmentName} | ${position}</p>
+					<p>Department's address: ${department.departmentAddress}</p>
+					<p>Department's phone: ${department.departmentPhone}</p>
 				</div>
 			</div>
 		</div><!--/col-3-->
@@ -38,7 +47,7 @@
 	             			<label class="col-sm-4 control-label" for="EmployeeID">EmployeeID</label>  
 	             			<div class="col-sm-5">
 	             				<h4 class="">
-	             					${emp.employee_id}
+	             					${emp.employeeId}
 	             				</h4>
 	             			</div>
 	             		</div>
@@ -47,7 +56,7 @@
 	             			<label class="col-sm-4 control-label" for="Name (Full name)">Name (Full name)</label>  
 	             			<div class="col-sm-5">
 	             				<h4 class="">
-	             					${emp.employee_name}
+	             					${emp.employeeName}
 	             				</h4>
 	             			</div>
 	             		</div>

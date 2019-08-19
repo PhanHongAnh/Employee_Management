@@ -3,6 +3,11 @@
 	width: 48px;
 	height: 48px;
 }
+.avatar {
+	padding: 4px;
+	width: 192px;
+	height: 192px;
+}
 li {
     list-style-type: none;
 }
@@ -255,6 +260,7 @@ cursor: pointer;
 
 .error {
 	color: red;
+	font-weight: bold;
 }
 
 .button2 {

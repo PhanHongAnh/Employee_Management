@@ -68,13 +68,13 @@ public class EmployeeDAOImpl extends JdbcDaoSupport implements EmployeeDAO{
 	public int updateEmployeeInfo(String employee_name, String gender, Date birthday, 
 			String address, String phone, String email, Date started_day, 
 			Integer status_id, Integer role_id, Timestamp updated_at,
-			Integer department_id, Integer position_id, Integer employee_id) {
+			Integer department_id, Integer position_id, String avatar, Integer employee_id) {
 		String sql = "Update Employees set employee_name = ?, gender = ?, birthday = ?, "
 				+ "address = ?, phone = ?, email = ?, started_day = ?, status_id = ?, role_id = ?, "
-				+ "updated_at = ?, department_id = ?, position_id = ? "
+				+ "updated_at = ?, department_id = ?, position_id = ?, avatar = ? "
 				+ "where employee_id = ?";
 		Object[] params = new Object[] {employee_name, gender, birthday, address, phone, email, 
-				started_day, status_id, role_id, updated_at, department_id, position_id, 
+				started_day, status_id, role_id, updated_at, department_id, position_id, avatar,
 				employee_id};
 		int count = this.getJdbcTemplate().update(sql, params);
 		return count;
@@ -97,11 +97,11 @@ public class EmployeeDAOImpl extends JdbcDaoSupport implements EmployeeDAO{
 	
 	@Override
 	public int createEmployeeInfo(EmployeeInfo emp) {
-		String sql = "Insert into Employees (employee_id, employee_name, birthday, gender, address, phone, email, password, role_id,"
-				+"status_id, department_id, position_id, started_day, created_at, updated_at) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
-		return this.getJdbcTemplate().update(sql, new Object[] {emp.getEmployee_id(),emp.getEmployee_name(),emp.getBirthday(),emp.getGender(),
-				emp.getAddress(),emp.getPhone(),emp.getEmail(),emp.getPassword(),emp.getRole_id(),
-				emp.getStatus_id(),emp.getDepartment_id(),emp.getPosition_id(),emp.getStarted_day(),
+		String sql = "Insert into Employees (employee_id, employee_name, birthday, gender, address, phone, email, password, avatar, role_id,"
+				+"status_id, department_id, position_id, started_day, created_at, updated_at) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+		return this.getJdbcTemplate().update(sql, new Object[] {emp.getEmployeeId(),emp.getEmployeeName(),emp.getBirthday(),emp.getGender(),
+				emp.getAddress(),emp.getPhone(),emp.getEmail(),emp.getPassword(),emp.getAvatar(),emp.getRoleId(),
+				emp.getStatusId(),emp.getDepartmentId(),emp.getPositionId(),emp.getStarted_day(),
 				emp.getCreated_at(),emp.getUpdated_at()});
 	}
 	

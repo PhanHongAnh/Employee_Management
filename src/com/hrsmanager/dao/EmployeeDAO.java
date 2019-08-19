@@ -14,7 +14,7 @@ public interface EmployeeDAO {
 	public int updateEmployeeInfo(String employee_name, String gender, Date birthday, 
 			String address, String phone, String email, Date started_day, 
 			Integer status_id, Integer role_id, Timestamp updated_at,
-			Integer department_id, Integer position_id, Integer employee_id);
+			Integer department_id, Integer position_id, String avatar, Integer employee_id);
 	public String findPassword(String email);
 	public int createEmployeeInfo(EmployeeInfo emp);
 	public int updatePassword(Integer employee_id, String password);
