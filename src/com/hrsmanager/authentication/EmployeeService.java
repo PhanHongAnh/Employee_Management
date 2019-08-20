@@ -115,12 +115,10 @@ public class EmployeeService implements UserDetailsService {
 	}
 	
 	public boolean checkEmail(String email) {
-		List<EmployeeInfo> listEmp = employeeDAO.listEmployee();
-		for (EmployeeInfo emp : listEmp) {
-			if (emp.getEmail().equals(email)) {
-				return false;
-			}
+		EmployeeInfo emp = employeeDAO.findEmployeeInfoByEmail(email);
+		if (emp == null) {
+			return false;	//email not found
 		}
-		return true;
+		return true;		//email is already in use
 	}
 }

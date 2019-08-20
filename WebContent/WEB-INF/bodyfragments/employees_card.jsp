@@ -41,19 +41,16 @@
 	                   <div class="backside">
 	                       <div class="card">
 	                           <div class="card-body text-center">
-	                               <a href="employee/${employee.employeeId}" class="card-title">${employee.employeeName}</a>
-	                               <ul class="card-text">
-		                               <li>Birthday: ${employee.birthday}</li>
-		                               <li>Email: ${employee.email}</li>
-		                               <li>Address: ${employee.address}</li>
-	                               </ul>
+									<a href="employee/${employee.employeeId}" class="card-title">${employee.employeeName}</a>
+									<ul class="card-text">
+										<li>Birthday: ${employee.birthday}</li>
+										<li>Email: ${employee.email}</li>
+										<li>Address: ${employee.address}</li>
+									</ul>
 	                               
-	                    		   <div class="action">
+	                    			<div class="action">
 			               				<button type="button" onclick="location.href='employee/${employee.employeeId}/edit'" class="but-action btn btn-primary btn-xs" title="Edit">
 			                   				<span class="glyphicon glyphicon-pencil"></span>
-			               				</button>
-			               				<button type="button" class="but-action btn btn-danger btn-xs" title="Delete">
-			                   				<span class="glyphicon glyphicon-trash"></span>
 			               				</button>
 	              					</div>                              
 	                           </div>

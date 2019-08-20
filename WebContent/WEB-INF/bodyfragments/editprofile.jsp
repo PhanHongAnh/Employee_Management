@@ -35,7 +35,7 @@
 	             			<c:if test="${error != null}">
 		             			<div class="form-group form-margin">
 			             			<div class="col-sm-4"></div>  
-			             			<div class="col-sm-5">
+			             			<div class="col-sm-8">
 			             				<span class="error">${error}</span>
 			             			</div>
 			             		</div>

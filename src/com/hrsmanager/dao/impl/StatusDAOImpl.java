@@ -44,7 +44,7 @@ public class StatusDAOImpl extends JdbcDaoSupport implements StatusDAO {
 	
 	@Override
 	public Status findStatusByName(String status_name) {
-		String sql = "select *from Status s where s.status_name = ?";
+		String sql = "select *from Status s where s.status_name like %?%";
 		Object[]params = new Object[] {status_name};
 		StatusMapper mapper = new StatusMapper();
 		try {
