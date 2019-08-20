@@ -16,7 +16,7 @@
 	     			<label class="col-sm-4 control-label" for="EmployeeID">EmployeeID</label>  
 	     			<div class="col-sm-8">
 	     				<h4 class="">
-	     					${emp.employee_id}
+	     					${emp.employeeId}
 	     				</h4>
 	     			</div>
      			</div>

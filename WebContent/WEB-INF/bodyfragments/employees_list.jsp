@@ -4,14 +4,22 @@
     <li class="list-group-item">
         <div class="row">
             <div class="col-xs-2 col-md-1">
-                <img src="<c:url value="/resources/img/no_avatar.jpg"/>" class="img-circle img-responsive" alt="" /></div>
+				<c:choose>
+					<c:when test="${empty employee.avatar}">
+						<img src="<c:url value="/resources/img/no_avatar.jpg"/>" class="img-circle img-responsive" alt="avatar">
+					</c:when>
+					<c:otherwise>
+						<img src="<c:url value="/resources/img/${employee.avatar}"/>" class="img-circle img-responsive" alt="avatar">
+					</c:otherwise>
+				</c:choose>
+            </div>
             <div class="col-xs-10 col-md-11">
 	            <div class="row" style="">
-	            	<div class="name col-xs-10 col-md-10"><a href="employee/${employee.employee_id}">${employee.employee_id}</a></div>
-	            	<div class="name col-xs-10 col-md-10"><a href="employee/${employee.employee_id}">${employee.employee_name}</a></div>
+	            	<div class="name col-xs-10 col-md-10"><a href="employee/${employee.employeeId}">${employee.employeeId}</a></div>
+	            	<div class="name col-xs-10 col-md-10"><a href="employee/${employee.employeeId}">${employee.employeeName}</a></div>
 	            	<div class="col-xs-2 col-md-2">
 	            		<div class="action pull-right">
-			               <button type="button" onclick="location.href='employee/${employee.employee_id}/edit'" class="but-action btn btn-primary btn-xs" title="Edit">
+			               <button type="button" onclick="location.href='employee/${employee.employeeId}/edit'" class="but-action btn btn-primary btn-xs" title="Edit">
 			                   <span class="glyphicon glyphicon-pencil"></span>
 			               </button>
 			               <button type="button" class="but-action btn btn-danger btn-xs" title="Delete">
@@ -22,14 +30,14 @@
 	          	</div>
                 <div class="mic-info">
                     <c:forEach items="${listDepartments}" var="dep">
-	                	<c:if test="${dep.department_id == employee.department_id}">
-	                  		<b style="color:LimeGreen">Department:</b> ${dep.department_name} 
+	                	<c:if test="${dep.departmentId == employee.departmentId}">
+	                  		<b style="color:LimeGreen">Department:</b> ${dep.departmentName} 
 	                  		<b style="color:red">|</b>
 	                    </c:if>
 	                 </c:forEach> 
 	                 <c:forEach items="${listPositions}" var="posi">
-	                 	<c:if test="${posi.position_id == employee.position_id}">
-	                  		<b style="color:LimeGreen">Position:</b> ${posi.position_name}
+	                 	<c:if test="${posi.positionId == employee.positionId}">
+	                  		<b style="color:LimeGreen">Position:</b> ${posi.positionName}
 	                    </c:if>
 	                 </c:forEach>
                 </div>

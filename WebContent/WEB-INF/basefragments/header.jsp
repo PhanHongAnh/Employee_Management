@@ -11,8 +11,15 @@
 					<li><h4>Welcome</h4></li>
 					<li>
 					<%if (request.getSession().getAttribute("emp_login")!= null) { %>
-						<a href="${pageContext.request.contextPath}/employee/${emp_login.employee_id}">
-							<img src="<c:url value="/resources/img/no_avatar.jpg"/>" class="header-avatar img-circle img-thumbnail" alt="avatar">
+						<a href="${pageContext.request.contextPath}/employee/${emp_login.employeeId}">
+							<c:choose>
+								<c:when test="${empty emp_login.avatar}">
+									<img src="<c:url value="/resources/img/no_avatar.jpg"/>" class="header-avatar img-circle img-thumbnail" alt="avatar">
+								</c:when>
+								<c:otherwise>
+									<img src="<c:url value="/resources/img/${emp_login.avatar}"/>" class="header-avatar img-circle img-thumbnail" alt="avatar">
+								</c:otherwise>
+							</c:choose>
 						</a>
 					<%}%>
 					</li>
@@ -36,8 +43,8 @@
 							<li><a href="${pageContext.request.contextPath}/employees">Employee Management</a></li>
 							<li class="divider"></li>
 						<%} %>
-						<li><a href="${pageContext.request.contextPath}/employee/${emp_login.employee_id}">Profile</a></li>
-						<li><a href="${pageContext.request.contextPath}/employee/${emp_login.employee_id}/change_password">Change Password</a></li>
+						<li><a href="${pageContext.request.contextPath}/employee/${emp_login.employeeId}">Profile</a></li>
+						<li><a href="${pageContext.request.contextPath}/employee/${emp_login.employeeId}/change_password">Change Password</a></li>
 						<li class="divider"></li>
 						<li><a href="${pageContext.request.contextPath}/logout">Logout</a></li>
 					</ul>

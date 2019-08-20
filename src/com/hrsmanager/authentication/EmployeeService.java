@@ -36,8 +36,8 @@ public class EmployeeService implements UserDetailsService {
 			throw new UsernameNotFoundException("Email "+email+" was not found");
 		}
 		
-		Roles role = roleDAO.findRolesByID(emp.getRole_id());
-		String role_name = role.getRole_name();
+		Roles role = roleDAO.findRolesByID(emp.getRoleId());
+		String role_name = role.getRoleName();
 		List<GrantedAuthority> grantList= new ArrayList<GrantedAuthority>();
 	
 		GrantedAuthority authority = new SimpleGrantedAuthority("ROLE_"+role_name);
@@ -77,10 +77,10 @@ public class EmployeeService implements UserDetailsService {
 	public EmployeeInfo updateEmployee(String employee_name, String gender, Date birthday, 
 			String address, String phone, String email, Date started_day, 
 			Integer status_id, Integer role_id, Timestamp updated_at, 
-			Integer department_id, Integer position_id, Integer employee_id) {
+			Integer department_id, Integer position_id, String avatar, Integer employee_id) {
 		int count = employeeDAO.updateEmployeeInfo(employee_name, gender, birthday, 
 				address, phone, email, started_day, status_id, role_id, updated_at, 
-				department_id, position_id, employee_id);
+				department_id, position_id, avatar, employee_id);
 		if (count != 1) {
 			throw new UsernameNotFoundException("Cannot update "+employee_id);
 		}
@@ -106,10 +106,10 @@ public class EmployeeService implements UserDetailsService {
 	
 	public int newEmployeeInfo(EmployeeInfo emp,Integer department_id, Integer position_id, Integer role_id, Integer status_id, Date started_day ) {
 		emp.setStarted_day(started_day);
-		emp.setRole_id(role_id);
-		emp.setStatus_id(status_id);
-		emp.setDepartment_id(department_id);
-		emp.setPosition_id(position_id);
+		emp.setRoleId(role_id);
+		emp.setStatusId(status_id);
+		emp.setDepartmentId(department_id);
+		emp.setPositionId(position_id);
 		
 		return employeeDAO.createEmployeeInfo(emp);
 	}

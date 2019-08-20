@@ -4,42 +4,34 @@ import java.sql.Timestamp;
 
 public class Roles {
 
-	private Integer role_id;
-	private String role_name;
+	private Integer roleId;
+	private String roleName;
 	private Timestamp created_at;
 	private Timestamp updated_at;
 	private Boolean active;
 	
 	public Roles(Integer role_id, String role_name) {
-		this.role_id = role_id;
-		this.role_name = role_name;
+		this.roleId = role_id;
+		this.roleName = role_name;
 		new Timestamp(System.currentTimeMillis());
 		this.updated_at = this.created_at;
 		this.active = true;
 	}
 
-	public Boolean getActive() {
-		return active;
+	public Integer getRoleId() {
+		return roleId;
 	}
 
-	public void setActive(Boolean active) {
-		this.active = active;
+	public void setRoleId(Integer roleId) {
+		this.roleId = roleId;
 	}
 
-	public Integer getRole_id() {
-		return role_id;
+	public String getRoleName() {
+		return roleName;
 	}
 
-	public void setRole_id(Integer role_id) {
-		this.role_id = role_id;
-	}
-
-	public String getRole_name() {
-		return role_name;
-	}
-
-	public void setRole_name(String role_name) {
-		this.role_name = role_name;
+	public void setRoleName(String roleName) {
+		this.roleName = roleName;
 	}
 
 	public Timestamp getCreated_at() {
@@ -56,6 +48,14 @@ public class Roles {
 
 	public void setUpdated_at(Timestamp updated_at) {
 		this.updated_at = updated_at;
+	}
+
+	public Boolean isActive() {
+		return active;
+	}
+
+	public void setActive(Boolean active) {
+		this.active = active;
 	}
 	
 }

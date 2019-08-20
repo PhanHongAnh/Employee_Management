@@ -1,11 +1,13 @@
 package com.hrsmanager.controller;
 
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.lang.StringUtils;
@@ -30,6 +32,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 @Controller
 public class EmployeeController {
@@ -67,7 +70,7 @@ public class EmployeeController {
 				model.addAttribute("total", list.size());
 				return "employees";
 			}else {
-				return "redirect:/employee/"+emp_login.getEmployee_id().toString();
+				return "redirect:/employee/"+emp_login.getEmployeeId().toString();
 			}
 		}
 	}
@@ -96,16 +99,16 @@ public class EmployeeController {
 		} 
 		else if(role.equals("ADMIN")){
 			EmployeeInfo emp = employeeService.findByID(id);
-			String position_name = positionDAO.findPositionByID(emp.getPosition_id()).getPosition_name();
-			DepartmentInfo department = (DepartmentInfo) departmentDAO.findDepartmentByID(emp.getDepartment_id());
+			String position_name = positionDAO.findPositionByID(emp.getPositionId()).getPositionName();
+			DepartmentInfo department = (DepartmentInfo) departmentDAO.findDepartmentByID(emp.getDepartmentId());
 			model.addAttribute("position", position_name);
 			model.addAttribute("department", department);
 			model.addAttribute("emp", emp);
 			return "profile";
 		}
 		else {
-			String position_name = positionDAO.findPositionByID(emp_login.getPosition_id()).getPosition_name();
-			DepartmentInfo department = (DepartmentInfo) departmentDAO.findDepartmentByID(emp_login.getDepartment_id());
+			String position_name = positionDAO.findPositionByID(emp_login.getPositionId()).getPositionName();
+			DepartmentInfo department = (DepartmentInfo) departmentDAO.findDepartmentByID(emp_login.getDepartmentId());
 			model.addAttribute("position", position_name);
 			model.addAttribute("department", department);
 			model.addAttribute("emp", emp_login);
@@ -114,23 +117,34 @@ public class EmployeeController {
 	}
 	
 	@RequestMapping(value = {"/employee/{id}/edit"}, method = RequestMethod.GET)
-	public ModelAndView edit(@PathVariable int id, Model model) {
-		EmployeeInfo emp = employeeService.findByID(id);
-		List<Status> listStatuses = statusDAO.listStatus();
-		List<Roles> listRoles = roleDAO.listRoles();
-		List<DepartmentInfo> listDepartments = departmentDAO.listDeapartments();
-		List<PositionInfo> listPositions = positionDAO.listPositions();
-		
-		model.addAttribute("emp", emp);
-		model.addAttribute("listStatuses", listStatuses);
-		model.addAttribute("listRoles", listRoles);
-		model.addAttribute("listDepartments", listDepartments);
-		model.addAttribute("listPositions", listPositions);
-		return new ModelAndView("editprofile");
+	public String edit(@PathVariable int id, Model model, HttpServletRequest request) {
+		HttpSession session = request.getSession();
+		String role = (String) session.getAttribute("role");
+		EmployeeInfo emp_login = (EmployeeInfo) session.getAttribute("emp_login");
+		if(emp_login == null) {
+			return "redirect:/login";
+		} else {
+			if(role.equals("ADMIN")){
+				EmployeeInfo emp = employeeService.findByID(id);
+				List<Status> listStatuses = statusDAO.listStatus();
+				List<Roles> listRoles = roleDAO.listRoles();
+				List<DepartmentInfo> listDepartments = departmentDAO.listDeapartments();
+				List<PositionInfo> listPositions = positionDAO.listPositions();
+				
+				model.addAttribute("emp", emp);
+				model.addAttribute("listStatuses", listStatuses);
+				model.addAttribute("listRoles", listRoles);
+				model.addAttribute("listDepartments", listDepartments);
+				model.addAttribute("listPositions", listPositions);
+				return "editprofile";
+			} else {
+				return "redirect:/employee/"+emp_login.getEmployeeId().toString();
+			}
+		}
 	}
 	
 	@RequestMapping(value = {"/employee/{id}/update"}, method = RequestMethod.POST)
-	public String update(@PathVariable int id,
+	public String update(@PathVariable int id, HttpSession session,
 			@RequestParam(value ="name") String name,
 			@RequestParam(value ="gender") String gender, 
 			@RequestParam(value ="dob") String dob, 
@@ -141,8 +155,9 @@ public class EmployeeController {
 			@RequestParam(value ="status_id") String status,
 			@RequestParam(value ="role_id") String role,
 			@RequestParam(value ="department_id") String department,
-			@RequestParam(value ="position_id") String position
-			) {
+			@RequestParam(value ="position_id") String position,
+			@RequestParam CommonsMultipartFile avt
+			) throws Exception {
 		
 		Date birthday = Date.valueOf(dob);
 		Date started_day = Date.valueOf(std);
@@ -152,24 +167,47 @@ public class EmployeeController {
 		Integer position_id = Integer.valueOf(position);
 		Timestamp updated_at = new Timestamp(System.currentTimeMillis());
 		
-		EmployeeInfo emp = employeeService.updateEmployee(name, gender, 
-				birthday, address, phone, email, started_day, status_id, role_id,
-				updated_at, department_id, position_id, id);
+		boolean hasError = false;
+		String error = null;
+		String avatar = null;
+		String path = "C:/Users/admin/project-workspace/Employee_Management/WebContent/resources/img";
 		
-		if (emp != null) {
-			return "redirect:/employee/" + id;
+		if (avt.isEmpty()) {
+			avatar = employeeService.findByID(id).getAvatar();
+		} else {
+			avatar = avt.getOriginalFilename();
+			if(avt.getContentType().contains("image") && avt.getSize() <= 3*1024*1024) {
+			    //upload file
+			    byte[] bytes = avt.getBytes();  
+			    BufferedOutputStream stream =new BufferedOutputStream(new FileOutputStream(new File(path + File.separator + avatar)));  
+			    stream.write(bytes);  
+			    stream.flush();  
+			    stream.close();
+			} else {
+				hasError = true;
+				error = "Avatar must be image file (size <= 3Mb)";
+			}
 		}
-		else return "redirect:/employee/" + id + "/edit";
-	}
-	
-	@RequestMapping(value = {"/employee/{id}"}, method = RequestMethod.DELETE)
-	public ModelAndView delete() {
-		return new ModelAndView("profile");
+		
+		if (hasError) {
+			session.setAttribute("error", error);
+			return "redirect:/employee/" + id + "/edit";
+		} else {
+			EmployeeInfo emp = employeeService.updateEmployee(name, gender, 
+					birthday, address, phone, email, started_day, status_id, role_id,
+					updated_at, department_id, position_id, avatar, id);
+			if (emp != null) {
+				return "redirect:/employee/" + id;
+			} else {
+				return "redirect:/employee/" + id + "/edit";
+			}
+		}
 	}
 	
 	/*-----------------create Employee----------------------------------------*/
 	@RequestMapping(value = {"/employee/new"}, method = RequestMethod.GET)
 	public String show(Model model, HttpServletRequest request) {
+
 		HttpSession session = request.getSession();
 		String role = (String) session.getAttribute("role");
 		EmployeeInfo emp_login = (EmployeeInfo) session.getAttribute("emp_login");
@@ -187,17 +225,20 @@ public class EmployeeController {
 				model.addAttribute("listPositions", listPositions);
 				return "newemployee";
 			} else {
-				return "redirect:/employee/"+emp_login.getEmployee_id().toString();
+				return "redirect:/employee/"+emp_login.getEmployeeId().toString();
 			}
 		}
 	}
 	
 	@RequestMapping(value = {"/create"}, method = RequestMethod.POST)
-	public String create(Model model,HttpServletRequest request, HttpServletResponse reponse) {
-
+	public String create(Model model, HttpServletRequest request,
+			HttpSession session,
+			@RequestParam CommonsMultipartFile avt) throws Exception {
+		
 		boolean hasError = false;
 		String error = null;
-		HttpSession session = request.getSession();
+		String avatar = null;
+		String path = "C:/Users/admin/project-workspace/Employee_Management/WebContent/resources/img";
 		
 		if (StringUtils.isNumeric(request.getParameter("id")) && request.getParameter("id").length() <= 11) {
 			Integer employee_id = Integer.valueOf((String)request.getParameter("id"));
@@ -214,8 +255,23 @@ public class EmployeeController {
 			Integer department_id = Integer.valueOf((String)request.getParameter("department_id"));
 			Integer position_id = Integer.valueOf((String)request.getParameter("position_id"));
 			
+			if (!avt.isEmpty()) {
+				avatar = avt.getOriginalFilename();
+				if(avt.getContentType().contains("image") && avt.getSize() <= 3*1024*1024) {
+				    //upload file
+				    byte[] bytes = avt.getBytes();  
+				    BufferedOutputStream stream =new BufferedOutputStream(new FileOutputStream(new File(path + File.separator + avatar)));  
+				    stream.write(bytes);  
+				    stream.flush();  
+				    stream.close();
+				} else {
+					hasError = true;
+					error = "Avatar must be image file (size <= 3Mb)";
+				}
+			}
+			
 			if (employeeService.checkEmail(email)) {
-				EmployeeInfo emp = new EmployeeInfo(employee_id, employee_name, gender, birthday, phone, email, password, address);
+				EmployeeInfo emp = new EmployeeInfo(employee_id, employee_name, gender, birthday, phone, email, password, address, avatar);
 				int k = employeeService.newEmployeeInfo(emp, department_id, position_id, role_id, status_id, started_day);
 				if (k<=0) {
 					hasError = true;
@@ -230,8 +286,7 @@ public class EmployeeController {
 		if (hasError) {
 			session.setAttribute("error", error);
 			return "redirect:/employee/new";
-		}
-		else {
+		} else {
 			return "redirect:/employees";
 		}
 	}

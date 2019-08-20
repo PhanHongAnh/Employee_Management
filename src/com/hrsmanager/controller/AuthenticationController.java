@@ -59,9 +59,9 @@ public class AuthenticationController {
 		}
 		else {
 			session.setAttribute("emp_login", emp);
-			String role = roleDAO.findRolesByID(emp.getRole_id()).getRole_name();
+			String role = roleDAO.findRolesByID(emp.getRoleId()).getRoleName();
 			session.setAttribute("role", role);
-			String id = emp.getEmployee_id().toString();
+			String id = emp.getEmployeeId().toString();
 			return "redirect:/employee/" + id;
 		}
 	}
