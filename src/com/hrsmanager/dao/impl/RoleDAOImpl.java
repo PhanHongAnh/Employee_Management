@@ -44,7 +44,7 @@ public class RoleDAOImpl extends JdbcDaoSupport implements RoleDAO{
 	
 	@Override
 	public Roles findRolesByName(String role_name) {
-		String sql = "select *from Roles r where r.role_name = ?";
+		String sql = "select * from Roles r where r.role_name like %?%";
 		Object[]params = new Object[] {role_name};
 		RoleMapper mapper = new RoleMapper();
 		try {

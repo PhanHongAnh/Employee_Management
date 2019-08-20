@@ -22,9 +22,6 @@
 			               <button type="button" onclick="location.href='employee/${employee.employeeId}/edit'" class="but-action btn btn-primary btn-xs" title="Edit">
 			                   <span class="glyphicon glyphicon-pencil"></span>
 			               </button>
-			               <button type="button" class="but-action btn btn-danger btn-xs" title="Delete">
-			                   <span class="glyphicon glyphicon-trash"></span>
-			               </button>
 	              		</div>
 	          		</div>
 	          	</div>

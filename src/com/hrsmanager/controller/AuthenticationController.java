@@ -44,10 +44,15 @@ public class AuthenticationController {
 			hasError = true;
 			errorString = "Email and Password can not null or empty";
 		} else {
-			emp = employeeService.findByEmailPass(email,password);
-			if (emp == null) {
+			if (employeeService.checkEmail(email)) {
+				emp = employeeService.findByEmailPass(email,password);
+				if (emp == null) {
+					hasError = true;
+					errorString = "Email or password invalid";
+				}
+			} else {
 				hasError = true;
-				errorString = "Email or password invalid";
+				errorString = "Couldn't find an account with that email";
 			}
 		}
 		

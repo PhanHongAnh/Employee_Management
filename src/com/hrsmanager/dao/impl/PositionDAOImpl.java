@@ -44,7 +44,7 @@ public class PositionDAOImpl extends JdbcDaoSupport implements PositionDAO{
 	
 	@Override
 	public PositionInfo findPositionByName(String position_name) {
-		String sql = "select *from Positions p where p.position_name = ?";
+		String sql = "select * from Positions p where p.position_name like %?%";
 		Object[]params = new Object[] {position_name};
 		PositionMapper mapper = new PositionMapper();
 		try {

@@ -189,6 +189,11 @@ public class EmployeeController {
 			}
 		}
 		
+		if (employeeService.checkEmail(email)) {
+			hasError = true;
+			error = "Email is already in use. Please enter another email.";
+		}
+		
 		if (hasError) {
 			session.setAttribute("error", error);
 			return "redirect:/employee/" + id + "/edit";
@@ -270,14 +275,18 @@ public class EmployeeController {
 				}
 			}
 			
-			if (employeeService.checkEmail(email)) {
+			if (!employeeService.checkEmail(email)) {
 				EmployeeInfo emp = new EmployeeInfo(employee_id, employee_name, gender, birthday, phone, email, password, address, avatar);
 				int k = employeeService.newEmployeeInfo(emp, department_id, position_id, role_id, status_id, started_day);
 				if (k<=0) {
 					hasError = true;
 					error = "Cannot create new user";
 				}
+			} else {
+				hasError = true;
+				error = "Email is already in use. Please enter another email.";
 			}
+			
 		} else {
 			hasError = true;
 			error = "Invalid Employee ID. Please enter employee's information again.";
